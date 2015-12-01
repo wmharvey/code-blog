@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+    <title>Day1 Pieces</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body id = "top">
+    <nav class = "primary-nav container">
+      <a class="link">Articles</a>
+      <a class="link">About</a>
+      <a class="link">Twitter</a>
+      <a class="link">Github</a>
+    </nav>
+
+    <header class = "group container">
+      <h1>Welcome To My Blog</h1>
+      <p class = "heading tagline">A random collection of articles</p>
+    </header>
+
+    <section class="grid container" id="blogContainer">
+
+      <article class = "col-1-5">
+        <h2>About</h2>
+          <p>Blog created by Whitney</p>
+        <h2>Other</h2>
+          <div class = "spacing">
+            <a>GitHub</a>
+            <a>Twitter</a>
+          </div>
+        <h2>Archive</h2>
+          <div class = "spacing">
+            <a>Jan</a>
+            <a>Feb</a>
+            <a>Mar</a>
+          </div>
+      </article>
+
+      <article class="arTemplate col-4-5">
+        <header class = "title">Title</header>
+        <article class = "author">Author</article>
+        <time>Date Published</time>
+        <article class = "body">Body Substance</article>
+        <article class = "category">Category</article>
+        <a class="link url">AuthorUrl</a>
+      </article>
+
+    </section>
+
+    <footer class = "container">
+      <a href = "#top">Back to top</a>
+    </footer>
+
+    <script src = "http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src = "blogObject.js"></script>
+    <script src = "blogArticles.js"></script>
+    <script src="blogLogic.js"></script>
+  </body>
+
+</html>

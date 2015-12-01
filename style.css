@@ -1,0 +1,153 @@
+@import url('http://necolas.github.io/normalize.css/3.0.2/normalize.css');
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*Custom styles*/
+
+body {
+  color: #888;
+  font: 300 16px/22px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4 .title {
+  color: #595959;
+}
+
+h1 {
+  font-size: 48px;
+  line-height: 44px;
+}
+
+.title {
+  font-size: 24px;
+  line-height: 44px;
+}
+
+strong {
+  font-weight: 400;
+}
+
+cite, em {
+  font-style: italic;
+}
+
+a {
+  text-decoration: none;
+}
+
+/*Typography*/
+h1, h2, h3, h4, h5, h6, p {
+  margin-bottom: 22px;
+}
+
+/*Links*/
+a:hover {
+  color: #a9b2b9;
+}
+
+a {
+  color: #648880;
+}
+
+/*Grid*/
+.container,
+.grid {
+  margin: 0 auto;
+  min-width: 200px;
+  max-width: 1100px;
+}
+
+.grid {
+  margin-top: 100px;
+}
+
+.col-1-5 {
+  width: 20%;
+  float: right;
+}
+
+.col-4-5 {
+  width: 80%;
+}
+
+.col-1-5,
+.col-4-5 {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 30px;
+}
+
+.grid,
+.col-1-5,
+.col-4-5 {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/*Nav bar*/
+.primary-nav {
+  text-align: right;
+  padding: 30px 0 30px 30px;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  word-spacing: .25em;
+}
+
+a.link:hover {
+  border-bottom: 1px solid #a9b2b9;
+}
+
+/*Header*/
+.group:before,
+.group:after {
+  content: "";
+  display: table;
+}
+.group:after {
+  clear: both;
+}
+.group {
+  clear: both;
+  *zoom: 1;
+}
+/*Article format*/
+header {
+  text-align: center;
+  background-color: #F5F4F0;
+}
+
+/*Side pannel*/
+article.col-1-5 {
+  border-left: 1px solid #595959;
+  text-align: center;
+}
+
+h2 {
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+.spacing {
+  margin-bottom: 22px;
+}
+
+.spacing > a {
+  display: block;
+}
+
+/*Footer*/
+footer {
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+/*Hide the template from view*/
+.arTemplate {
+  display: none;
+}
