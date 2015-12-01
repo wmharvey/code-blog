@@ -36,6 +36,12 @@ $(function() {
     return 0;
   };
 
+  var byReverseAuthor = function(a, b) {
+    if (a.author > b.author) {return 1;}
+    if (a.author < b.author) {return -1;}
+    return 0;
+  };
+
   var byDate = function(a, b) {
     if (a.publishedOn > b.publishedOn) { return 1; }
     if (a.publishedOn < b.publishedOn) { return -1; }
@@ -49,7 +55,7 @@ $(function() {
   };
 
 // Sort the articles initially by date
-  blog.rawData.sort(byTitle);
+  blog.rawData.sort(byDate);
 
   for (var i = 0; i < blog.rawData.length; i++) {
     $('.arTemplate').after(new makeArticle(blog.rawData[i]).toHtml());
@@ -65,13 +71,29 @@ $(function() {
     var str = $(this).text();
     if (str === 'See More') {
       $(this).text('See Less');
+      $(this).css('cursor', 'n-resize');
     } else {
       $(this).text('See More');
+      $(this).css('cursor', 's-resize');
       $('html, body').animate({
         scrollTop: $($(this).siblings('.title')).offset().top
       }, 500);
     }
   });
 
+// Create a dropdown list for Authors
+  var trackAuthors = [];
+  blog.rawData.sort(byReverseAuthor);
+  for (var i = 0; i < blog.rawData.length; i++) {
+    var iAuthor = blog.rawData[i].author;
+    if (trackAuthors.indexOf(iAuthor) === -1) {
+      var string = '<option>' + iAuthor + '</option>'
+      var $html = $(string);
+      $('.author').append($html);
+      trackAuthors.push(iAuthor);
+    }
+  };
+
+  
 
 });
