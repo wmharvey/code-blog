@@ -157,3 +157,9 @@ img {
 .arTemplate {
   display: none;
 }
+
+/*Special See More / See Less text*/
+.more {
+  display: block;
+  cursor:pointer;
+}

@@ -28,7 +28,7 @@ $(function() {
   };
 
   // These functions receive an array of articles and sorts based on
-  // their  author or publication date
+  // their  author, publication date, or title
 
   var byAuthor = function(a, b) {
     if (a.author < b.author) {return 1;}
@@ -42,10 +42,36 @@ $(function() {
     return 0;
   };
 
-  blog.rawData.sort(byDate);
+  var byTitle = function(a, b) {
+    if (a.title < b.title) { return 1; }
+    if (a.title > b.title) { return -1; }
+    return 0;
+  };
+
+// Sort the articles initially by date
+  blog.rawData.sort(byTitle);
 
   for (var i = 0; i < blog.rawData.length; i++) {
     $('.arTemplate').after(new makeArticle(blog.rawData[i]).toHtml());
   }
+
+// Hide the paragraphs initially
+  // $(.body:nth-of-type(n>1)).hide();
+  $('.body>*:gt(0)').hide();
+
+// Expand and Minimize the article when "more" or "less" is clicked
+  $('.more').on('click', function() {
+    $(this).siblings('.body').children('p').slideToggle(500);
+    var str = $(this).text();
+    if (str === 'See More') {
+      $(this).text('See Less');
+    } else {
+      $(this).text('See More');
+      $('html, body').animate({
+        scrollTop: $($(this).siblings('.title')).offset().top
+      }, 500);
+    }
+  });
+
 
 });
