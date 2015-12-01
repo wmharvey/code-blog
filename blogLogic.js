@@ -23,22 +23,26 @@ $(function() {
     $newArticle.find('.body').html(this.body);
     $newArticle.find('.category').html('Tags: ' + this.category);
     $newArticle.find('.url').html('Original source: ' + this.authorUrl);
+    $newArticle.find('.url').attr('href', this.authorUrl);
     return $newArticle;
   };
 
-  // This function receives an array of articles and sorts then based on
-  // their publication date
-  function sortArticlesOnDate(articleArray) {
-    articleArray.sort(
-      function(a, b) {
-        if (a.publishedOn > b.publishedOn) { return 1; }
-        if (a.publishedOn < b.publishedOn) {return -1; }
-        return 0;
-      }
-    );
-  }
+  // These functions receive an array of articles and sorts based on
+  // their  author or publication date
 
-  sortArticlesOnDate(blog.rawData);
+  var byAuthor = function(a, b) {
+    if (a.author < b.author) {return 1;}
+    if (a.author > b.author) {return -1;}
+    return 0;
+  };
+
+  var byDate = function(a, b) {
+    if (a.publishedOn > b.publishedOn) { return 1; }
+    if (a.publishedOn < b.publishedOn) { return -1; }
+    return 0;
+  };
+
+  blog.rawData.sort(byDate);
 
   for (var i = 0; i < blog.rawData.length; i++) {
     $('.arTemplate').after(new makeArticle(blog.rawData[i]).toHtml());

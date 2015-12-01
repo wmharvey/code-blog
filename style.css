@@ -147,6 +147,12 @@ footer {
   padding-bottom: 30px;
 }
 
+/*Images*/
+img {
+  margin: 40px auto;
+  display: block;
+}
+
 /*Hide the template from view*/
 .arTemplate {
   display: none;
