@@ -38,12 +38,12 @@ var byCategory = function(a, b) {
 };
 
 //Filter the data based on user selection
-//selectClass is the class in the relevant <select> ex: '.authorList'
+//selectID is the ID in the relevant <select> ex: '#authorList'
 //defaultText is the default text when not sorted ex: 'Sort by Author'
 //templateClass is the relevant class in arTemplate ex: '.author'
-function filter (selectClass, defaultText, templateClass) {
+function filter (selectID, defaultText, templateClass) {
   revealAll();
-  var txt = $(selectClass + ' option:selected').text();
+  var txt = $(selectID + ' option:selected').text();
   if (txt !== defaultText) {
     $(templateClass).each(function() {
       var $this = $(this);
@@ -56,16 +56,16 @@ function filter (selectClass, defaultText, templateClass) {
 
 // Function will fill out the dropdown box pre-created in the HTML
 // The parameter byType accepts a string with an article object key.
-// The parameter listClass accepts a string that is the dropdown's class
-// that begins with a '.'
-function createDropdown(byType, listClass) {
+// The parameter listClass accepts a string that is the dropdown's id
+// that begins with a '#'
+function createDropdown(byType, listID) {
   var track = [];
   for (var i = 0; i < blog.rawData.length; i++) {
     var type = blog.rawData[i][byType];
     if (track.indexOf(type) === -1) {
       var string = '<option>' + type + '</option>';
       var $html = $(string);
-      $(listClass).append($html);
+      $(listID).append($html);
       track.push(type);
     }
   }

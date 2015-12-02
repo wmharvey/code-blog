@@ -49,37 +49,38 @@ $(function() {
 
 // Expand and Minimize the article when "more" or "less" is clicked
   $('.more').on('click', function() {
-    $(this).siblings('.body').children().filter(':gt(0)').slideToggle(500);
-    var str = $(this).text();
+    var $this = $(this);
+    $this.siblings('.body').children().filter(':gt(0)').slideToggle(500);
+    var str = $this.text();
     if (str === 'See More') {
-      $(this).text('See Less');
-      $(this).css('cursor', 'n-resize');
+      $this.text('See Less');
+      $this.css('cursor', 'n-resize');
     } else {
-      $(this).text('See More');
-      $(this).css('cursor', 's-resize');
+      $this.text('See More');
+      $this.css('cursor', 's-resize');
       $('html, body').animate({
-        scrollTop: $($(this).siblings('.title')).offset().top
+        scrollTop: $($this.siblings('.title')).offset().top
       }, 500);
     }
   });
 
 // Create a dropdown list for Authors
   blog.rawData.sort(byReverseAuthor);
-  createDropdown('author', '.authorList');
+  createDropdown('author', '#authorList');
 
 // Create a dropdown list for categories
   blog.rawData.sort(byCategory);
-  createDropdown('category', '.categoryList');
+  createDropdown('category', '#categoryList');
 
 
 //Filter the articles based on user selected author
-  $('.authorList').change(function() {
-    filter('.authorList', 'Sort by Author', '.author');
+  $('#authorList').change(function() {
+    filter('#authorList', 'Sort by Author', '.author');
   });
 
 //Filter the articles based on user selected category
-  $('.categoryList').change(function() {
-    filter('.categoryList', 'Sort by Category', '.category');
+  $('#categoryList').change(function() {
+    filter('#categoryList', 'Sort by Category', '.category');
   });
 
 });
