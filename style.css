@@ -64,7 +64,7 @@ a {
 }
 
 .grid {
-  margin-top: 100px;
+  margin-top: 30px;
 }
 
 .col-1-5 {
@@ -101,6 +101,12 @@ a {
 
 a.link:hover {
   border-bottom: 1px solid #a9b2b9;
+}
+
+/*Asides*/
+aside {
+  text-align: center;
+  display: none;
 }
 
 /*Header*/
@@ -162,4 +168,14 @@ img {
 .more {
   display: block;
   cursor:s-resize;
+}
+
+/*Drop down list for sorting*/
+.filters {
+  margin-top: 100px;
+}
+
+select {
+  display: block;
+  margin: 10px auto;
 }

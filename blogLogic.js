@@ -27,39 +27,6 @@ $(function() {
     return $newArticle;
   };
 
-  // These functions receive an array of articles and sorts based on
-  // their  author, publication date, or title
-
-  var byAuthor = function(a, b) {
-    if (a.author < b.author) {return 1;}
-    if (a.author > b.author) {return -1;}
-    return 0;
-  };
-
-  var byReverseAuthor = function(a, b) {
-    if (a.author > b.author) {return 1;}
-    if (a.author < b.author) {return -1;}
-    return 0;
-  };
-
-  var byDate = function(a, b) {
-    if (a.publishedOn > b.publishedOn) { return 1; }
-    if (a.publishedOn < b.publishedOn) { return -1; }
-    return 0;
-  };
-
-  var byTitle = function(a, b) {
-    if (a.title < b.title) { return 1; }
-    if (a.title > b.title) { return -1; }
-    return 0;
-  };
-
-  var byCategory = function(a, b) {
-    if (a.category > b.category) { return 1; }
-    if (a.category < b.category) { return -1; }
-    return 0;
-  };
-
 // Sort the articles initially by date
   blog.rawData.sort(byDate);
 
@@ -69,11 +36,15 @@ $(function() {
   }
 
 // Hide the paragraphs initially
-  // $(.body:nth-of-type(n>1)).hide();
   var $articleBody = $('.body');
   $articleBody.each(function() {
     var $this = $(this);
     $this.children().filter(':gt(0)').hide();
+  });
+
+// Expand the about link when clicked
+  $('.toggle').on('click', function() {
+    $('.about').toggle(500);
   });
 
 // Expand and Minimize the article when "more" or "less" is clicked
@@ -92,23 +63,6 @@ $(function() {
     }
   });
 
-// Function will fill out the dropdown box pre-created in the HTML
-// The parameter byType accepts a string with an article object key.
-// The parameter listClass accepts a string that is the dropdown's class
-// that begins with a '.'
-  function createDropdown(byType, listClass) {
-    var track = [];
-    for (var i = 0; i < blog.rawData.length; i++) {
-      var type = blog.rawData[i][byType];
-      if (track.indexOf(type) === -1) {
-        var string = '<option>' + type + '</option>';
-        var $html = $(string);
-        $(listClass).append($html);
-        track.push(type);
-      }
-    }
-  };
-
 // Create a dropdown list for Authors
   blog.rawData.sort(byReverseAuthor);
   createDropdown('author', '.authorList');
@@ -117,29 +71,15 @@ $(function() {
   blog.rawData.sort(byCategory);
   createDropdown('category', '.categoryList');
 
+
 //Filter the articles based on user selected author
   $('.authorList').change(function() {
-    $('.articleBundle').show();
-    var auth = $('.authorList option:selected').text();
-    $('.author').each(function() {
-      var $this = $(this);
-      if ($this.text() !== auth) {
-        $this.parent('.articleBundle').hide();
-      }
-    });
+    filter('.authorList', 'Sort by Author', '.author');
   });
 
 //Filter the articles based on user selected category
   $('.categoryList').change(function() {
-    $('.articleBundle').show();
-    var cat = $('.categoryList option:selected').text();
-    $('.category').each(function() {
-      var $this = $(this);
-      console.log($this.text());
-      if ($this.text() !== cat) {
-        $this.parent('.articleBundle').hide();
-      }
-    });
+    filter('.categoryList', 'Sort by Category', '.category');
   });
 
 });

@@ -11,10 +11,19 @@
   <body id = "top">
     <nav class = "primary-nav container">
       <a class="link">Articles</a>
-      <a class="link">About</a>
+      <a class="link toggle">About</a>
       <a class="link">Twitter</a>
-      <a class="link" href="https://github.com/wmharvey">Github</a>
+      <a class="link" href="https://github.com/wmharvey" target="_blank">Github</a>
     </nav>
+
+    <aside class="container about">
+      <h3>Hi! My name is Whitney</h3>
+      <p>This blog is an ongoing project to learn web dev</p>
+      <ul>Some features you'll see here:
+        <li>Sortable blog entries</li>
+        <li>Preview of blogs to minimize space</li>
+      </ul>
+    </aside>
 
     <header class = "group container">
       <h1>Welcome To My Blog</h1>
@@ -37,8 +46,8 @@
           <p>Blog created by Whitney</p>
         <h2>Other</h2>
           <div class = "spacing">
-            <a href="https://github.com/wmharvey">GitHub</a>
-            <a>Twitter</a>
+            <a href="https://github.com/wmharvey" target="_blank">GitHub</a>
+            <a target="_blank">Twitter</a>
           </div>
         <h2>Archive</h2>
           <div class = "spacing">
@@ -54,7 +63,7 @@
         <time>Date Published</time>
         <article class = "body">Body Substance</article>
         <article class = "category">Category</article>
-        <a class="link url">AuthorUrl</a>
+        <a class="link url" target="_blank">AuthorUrl</a>
         <a class="more">See More</a>
       </article>
 
@@ -67,6 +76,7 @@
     <script src = "http://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src = "blogObject.js"></script>
     <script src = "blogArticles.js"></script>
+    <script src = "util.js"></script>
     <script src="blogLogic.js"></script>
   </body>
 
