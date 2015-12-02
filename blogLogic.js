@@ -17,11 +17,11 @@ $(function() {
     var $newArticle = $('article.arTemplate').clone();
     $newArticle.removeClass('arTemplate');
     $newArticle.find('.title').html(this.title);
-    $newArticle.find('.author').html('By ' + this.author);
+    $newArticle.find('.author').html(this.author);
     $newArticle.find('time').html('Published ' + parseInt((new Date()
     - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
     $newArticle.find('.body').html(this.body);
-    $newArticle.find('.category').html('Tags: ' + this.category);
+    $newArticle.find('.category').html(this.category);
     $newArticle.find('.url').html('Original source: ' + this.authorUrl);
     $newArticle.find('.url').attr('href', this.authorUrl);
     return $newArticle;
@@ -54,20 +54,31 @@ $(function() {
     return 0;
   };
 
+  var byCategory = function(a, b) {
+    if (a.category > b.category) { return 1; }
+    if (a.category < b.category) { return -1; }
+    return 0;
+  };
+
 // Sort the articles initially by date
   blog.rawData.sort(byDate);
 
+//Load all the articles onto the blog website
   for (var i = 0; i < blog.rawData.length; i++) {
     $('.arTemplate').after(new makeArticle(blog.rawData[i]).toHtml());
   }
 
 // Hide the paragraphs initially
   // $(.body:nth-of-type(n>1)).hide();
-  $('.body>*:gt(0)').hide();
+  var $articleBody = $('.body');
+  $articleBody.each(function() {
+    var $this = $(this);
+    $this.children().filter(':gt(0)').hide();
+  });
 
 // Expand and Minimize the article when "more" or "less" is clicked
   $('.more').on('click', function() {
-    $(this).siblings('.body').children('p').slideToggle(500);
+    $(this).siblings('.body').children().filter(':gt(0)').slideToggle(500);
     var str = $(this).text();
     if (str === 'See More') {
       $(this).text('See Less');
@@ -81,19 +92,54 @@ $(function() {
     }
   });
 
-// Create a dropdown list for Authors
-  var trackAuthors = [];
-  blog.rawData.sort(byReverseAuthor);
-  for (var i = 0; i < blog.rawData.length; i++) {
-    var iAuthor = blog.rawData[i].author;
-    if (trackAuthors.indexOf(iAuthor) === -1) {
-      var string = '<option>' + iAuthor + '</option>'
-      var $html = $(string);
-      $('.author').append($html);
-      trackAuthors.push(iAuthor);
+// Function will fill out the dropdown box pre-created in the HTML
+// The parameter byType accepts a string with an article object key.
+// The parameter listClass accepts a string that is the dropdown's class
+// that begins with a '.'
+  function createDropdown(byType, listClass) {
+    var track = [];
+    for (var i = 0; i < blog.rawData.length; i++) {
+      var type = blog.rawData[i][byType];
+      if (track.indexOf(type) === -1) {
+        var string = '<option>' + type + '</option>';
+        var $html = $(string);
+        $(listClass).append($html);
+        track.push(type);
+      }
     }
   };
 
-  
+// Create a dropdown list for Authors
+  blog.rawData.sort(byReverseAuthor);
+  createDropdown('author', '.authorList');
+
+// Create a dropdown list for categories
+  blog.rawData.sort(byCategory);
+  createDropdown('category', '.categoryList');
+
+//Filter the articles based on user selected author
+  $('.authorList').change(function() {
+    $('.articleBundle').show();
+    var auth = $('.authorList option:selected').text();
+    $('.author').each(function() {
+      var $this = $(this);
+      if ($this.text() !== auth) {
+        $this.parent('.articleBundle').hide();
+      }
+    });
+  });
+
+//Filter the articles based on user selected category
+  $('.categoryList').change(function() {
+    $('.articleBundle').show();
+    var cat = $('.categoryList option:selected').text();
+    $('.category').each(function() {
+      var $this = $(this);
+      console.log($this.text());
+      if ($this.text() !== cat) {
+        $this.parent('.articleBundle').hide();
+      }
+    });
+  });
 
 });
