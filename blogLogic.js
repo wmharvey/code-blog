@@ -22,7 +22,6 @@ $(function() {
     - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
     $newArticle.find('.body').html(this.body);
     $newArticle.find('.category').html(this.category);
-    $newArticle.find('.url').html('Original source: ' + this.authorUrl);
     $newArticle.find('.url').attr('href', this.authorUrl);
     return $newArticle;
   };
