@@ -9,25 +9,33 @@
   </head>
 
   <body id = "top">
-    <nav class = "primary-nav container">
-      <a class="link">Articles</a>
-      <a class="link toggle">About</a>
-      <a class="link">Twitter</a>
-      <a class="link" href="https://github.com/wmharvey" target="_blank">Github</a>
+
+    <nav class="main-navbar">
+      <div class="wrapper clearfix">
+        <div class="row">
+          <div id="menu-button">
+            <p>Menu</p>
+          </div>
+          <div id="logo-button">
+            <p>HarveyBlogs</p>
+          </div>
+        </div>
+      </div>
     </nav>
 
-    <aside class="container about">
-      <h3>Hi! My name is Whitney</h3>
-      <p>This blog is an ongoing project to learn web dev</p>
-      <ul>Some features you'll see here:
-        <li>Sortable blog entries</li>
-        <li>Preview of blogs to minimize space</li>
-      </ul>
-    </aside>
+    <nav class = "menu">
+      <div class="table">
+        <ul>
+          <li>Articles</li>
+          <li>About</li>
+          <li>Twitter</li>
+          <li>Github</li>
+        </ul>
+      </div>
+    </nav>
 
-    <header class = "group container">
-      <h1>Welcome To My Blog</h1>
-      <p class = "heading tagline">A random collection of articles</p>
+    <header id="first-view">
+        <h1>Welcome!</h1>
     </header>
 
     <nav id="filters">
@@ -41,27 +49,13 @@
 
     <section class="grid container" id="blogContainer">
 
-      <article class = "col-1-5">
-        <h2>About</h2>
-          <p>Blog created by Whitney</p>
-        <h2>Other</h2>
-          <div class = "spacing">
-            <a href="https://github.com/wmharvey" target="_blank">GitHub</a>
-            <a target="_blank">Twitter</a>
-          </div>
-        <h2>Archive</h2>
-          <div class = "spacing">
-            <a>Jan</a>
-            <a>Feb</a>
-            <a>Mar</a>
-          </div>
-      </article>
-
-      <article class="arTemplate col-4-5 articleBundle">
+      <article class="arTemplate articleBundle">
         <header class = "title">Title</header>
+        <p>By: </p>
         <article class = "author">Author</article>
         <time>Date Published</time>
         <article class = "body">Body Substance</article>
+        <p>Categories: </p>
         <article class = "category">Category</article>
         <a class="link url" target="_blank">AuthorUrl</a>
         <a class="more">See More</a>

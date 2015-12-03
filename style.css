@@ -1,5 +1,56 @@
 @import url('http://necolas.github.io/normalize.css/3.0.2/normalize.css');
 
+@import url(https://fonts.googleapis.com/css?family=Crimson+Text);
+/*Meyer Reset*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+body {
+	line-height: 1;
+	color: black;
+	background: white;
+}
+ol, ul {
+	list-style: none;
+}
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: separate;
+	border-spacing: 0;
+}
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: "";
+}
+blockquote, q {
+	quotes: "" "";
+}
+/*----------*/
+
+/*Box-sizing*/
 *,
 *:before,
 *:after {
@@ -8,179 +59,109 @@
   box-sizing: border-box;
 }
 
-/*Custom styles*/
+/*Standard Styles*/
 
 body {
-  color: #888;
-  font: 300 16px/22px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-h1, h2, h3, h4 .title {
-  color: #595959;
-}
-
-h1 {
-  font-size: 48px;
-  line-height: 44px;
-}
-
-.title {
-  font-size: 24px;
-  line-height: 44px;
-}
-
-strong {
-  font-weight: 400;
-}
-
-cite, em {
-  font-style: italic;
-}
-
-a {
-  text-decoration: none;
-}
-
-/*Media*/
-img, video, canvas {
-  max-width: 100%;
-}
-
-/*Typography*/
-h1, h2, h3, h4, h5, h6, p {
-  margin-bottom: 22px;
-}
-
-/*Links*/
-a:hover {
-  color: #a9b2b9;
-}
-
-a {
-  color: #648880;
-}
-
-/*Grid*/
-.container,
-.grid {
-  margin: 0 auto;
-  min-width: 200px;
-  max-width: 1100px;
-}
-
-.grid {
-  margin-top: 30px;
-}
-
-.col-1-5 {
-  width: 20%;
-  float: right;
-}
-
-.col-4-5 {
-  width: 80%;
-}
-
-.col-1-5,
-.col-4-5 {
-  display: inline-block;
-  vertical-align: top;
-  margin-top: 30px;
-}
-
-.grid,
-.col-1-5,
-.col-4-5 {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-/*Nav bar*/
-.primary-nav {
-  text-align: right;
-  padding: 30px 0 30px 30px;
-  text-transform: uppercase;
-  letter-spacing: .2em;
-  word-spacing: .25em;
-}
-
-a.link:hover {
-  border-bottom: 1px solid #a9b2b9;
-}
-
-/*Asides*/
-aside {
-  text-align: center;
-  display: none;
-}
-
-/*Header*/
-.group:before,
-.group:after {
-  content: "";
-  display: table;
-}
-.group:after {
-  clear: both;
-}
-.group {
-  clear: both;
-  *zoom: 1;
-}
-/*Article format*/
-header {
-  text-align: center;
-  background-color: #F5F4F0;
-}
-
-/*Side pannel*/
-article.col-1-5 {
-  border-left: 1px solid #595959;
-  text-align: center;
-}
-
-h2 {
-  text-transform: uppercase;
-  letter-spacing: .1em;
-}
-
-.spacing {
-  margin-bottom: 22px;
-}
-
-.spacing > a {
   display: block;
+  font-family: 'Crimson Text', serif;
+  font: 16px/22px;
+  width: 100vw;
 }
 
-/*Footer*/
-footer {
-  text-align: center;
-  padding-bottom: 30px;
-}
-
-/*Images*/
 img {
-  margin: 40px auto;
+  max-width: 100%;
   display: block;
+  margin: 15px auto;
+
 }
 
-/*Hide the template from view*/
+/*Static Header*/
+
+.main-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255,255,255,.6);
+  padding: 14px 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.wrapper {
+  margin: auto;
+  position: relative;
+  padding: 0 40px;
+}
+
+#menu-button {
+  display: inline-block;
+  width: 25%;
+}
+
+#logo-button {
+  display: inline-block;
+  width: 70%;
+}
+
+/*Main intro, fills screen*/
+#first-view {
+  width: 100%;
+  height: 100vh;
+  background: url('main-image.jpg');
+  background-size: cover;
+  background-position: center left;
+  margin-bottom: 50px;
+}
+
+#first-view > h1 {
+  text-align: center;
+  position: relative;
+  top: 30vh;
+}
+
+/*Drop-down list*/
+
+select {
+  display: block;
+  margin: 0 auto;
+}
+
+/*Main content*/
+
 .arTemplate {
   display: none;
 }
 
-/*Special See More / See Less text*/
+.articleBundle {
+  margin: 50px auto;
+}
+
+.title {
+  font-size: 1.5em;
+  text-align: center;
+  background-color: #F5F4F0;
+  padding: 14px 0;
+}
+
+.articleBundle > p, .author, .category {
+  display: inline-block;
+}
+
+time, a {
+  display: block;
+}
+
 .more {
-  display: block;
-  cursor:s-resize;
+  margin: 14px 0;
 }
 
-/*Drop down list for sorting*/
-.filters {
-  margin-top: 100px;
+.body > p {
+  margin: 14px 0;
+  text-align: center;
 }
 
-select {
-  display: block;
-  margin: 10px auto;
+/*-------*/
+.menu {
+  display: none;
 }
