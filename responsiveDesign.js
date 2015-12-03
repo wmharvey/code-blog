@@ -20,9 +20,5 @@ $('#menu-button').on('click', function () {
 
 $('#close-tab').on('click', function () {
   $('.menu').slideUp(500);
-});
 
-// Expand the about link when clicked
-$('.toggle').on('click', function() {
-  $('.about').toggle(500);
 });

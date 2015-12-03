@@ -1,4 +1,4 @@
-@import url('http://necolas.github.io/normalize.css/3.0.2/normalize.css');
+@import url(http://necolas.github.io/normalize.css/3.0.2/normalize.css);
 
 @import url(https://fonts.googleapis.com/css?family=Crimson+Text);
 /*Meyer Reset*/
@@ -95,12 +95,13 @@ link {
 .wrapper {
   margin: auto;
   position: relative;
-  padding: 0 40px;
 }
 
 #menu-button {
   display: inline-block;
-  width: 25%;
+  width: 20%;
+	cursor: pointer;
+	text-align: center;
 }
 
 /*Main intro, fills screen*/
@@ -176,7 +177,7 @@ time, a {
 
 /*-------*/
 
-/*Menu button*/
+/*Menu layover*/
 .menu {
   display: none;
   position: fixed;
@@ -197,7 +198,8 @@ div.table {
   top: 0;
   left: 0;
   font-size: 1.5em;
-  padding: 15px 0 0 15px;
+  padding: 20px 0 0 25px;
+	cursor: pointer;
 }
 
 nav.menu ul {
@@ -209,7 +211,13 @@ nav.menu ul {
 
 .menu li {
   margin-bottom: 20px;
+	cursor: pointer;
 }
+
+.menu ul li:hover, #close-tab:hover, #menu-button:hover {
+	color: #a9b2b9;
+}
+
 
 /*Footer*/
 footer {
