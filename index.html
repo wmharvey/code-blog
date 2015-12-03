@@ -7,6 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
     <link rel="stylesheet" href="style.css">
+    <script src=handlebars-v4.0.5.js></script>
   </head>
 
   <body id = "top">
@@ -46,19 +47,25 @@
       </select>
     </nav>
 
+    <!-- Start Handlebars Template -->
+    <script id="article-template" type="text/x-handlebars-template">
+      <section class="articleBundle">
+        <header class="title">{{title}}</header>
+        <p>By: </p>
+        <p class="author">{{author}}</p>
+        <time>Published {{getDate this.publishedOn}} days ago</time>
+        <article class="body">{{{body}}}</article>
+        <p>Categories: </p>
+        <p class="category">{{category}}</p>
+        <a class="link url" target="_blank" href="{{authorUrl}}">Original Article</a>
+        <a class="more link">See More</a>
+      </section>
+    </script>
+    <!-- End Handlebars Template -->
+
     <section class="grid container" id="blogContainer">
 
-      <article class="arTemplate articleBundle">
-        <header class = "title">Title</header>
-        <p>By: </p>
-        <article class = "author">Author</article>
-        <time>Date Published</time>
-        <article class = "body">Body Substance</article>
-        <p>Categories: </p>
-        <article class = "category">Category</article>
-        <a class="link url" target="_blank">Original Article</a>
-        <a class="more link">See More</a>
-      </article>
+    <!-- Insert templates here -->
 
     </section>
 

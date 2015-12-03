@@ -1,7 +1,6 @@
 //Reveal all articles and hide the template
 function revealAll() {
   $('.articleBundle').show();
-  $('.arTemplate').hide();
 }
 
 // Will cause the .sort method to sort based on
@@ -20,8 +19,8 @@ var byReverseAuthor = function(a, b) {
 };
 
 var byDate = function(a, b) {
-  if (a.publishedOn > b.publishedOn) { return 1; }
-  if (a.publishedOn < b.publishedOn) { return -1; }
+  if (a.publishedOn < b.publishedOn) { return 1; }
+  if (a.publishedOn > b.publishedOn) { return -1; }
   return 0;
 };
 
@@ -35,6 +34,23 @@ var byCategory = function(a, b) {
   if (a.category > b.category) { return 1; }
   if (a.category < b.category) { return -1; }
   return 0;
+};
+
+// Function will fill out the dropdown box pre-created in the HTML
+// The parameter byType accepts a string with an article object key.
+// The parameter listClass accepts a string that is the dropdown's id
+// that begins with a '#'
+function createDropdown(byType, listID) {
+  var track = [];
+  for (var i = 0; i < blog.rawData.length; i++) {
+    var type = blog.rawData[i][byType];
+    if (track.indexOf(type) === -1) {
+      var string = '<option>' + type + '</option>';
+      var $html = $(string);
+      $(listID).append($html);
+      track.push(type);
+    }
+  }
 };
 
 //Filter the data based on user selection
@@ -53,20 +69,3 @@ function filter (selectID, defaultText, templateClass) {
     });
   }
 }
-
-// Function will fill out the dropdown box pre-created in the HTML
-// The parameter byType accepts a string with an article object key.
-// The parameter listClass accepts a string that is the dropdown's id
-// that begins with a '#'
-function createDropdown(byType, listID) {
-  var track = [];
-  for (var i = 0; i < blog.rawData.length; i++) {
-    var type = blog.rawData[i][byType];
-    if (track.indexOf(type) === -1) {
-      var string = '<option>' + type + '</option>';
-      var $html = $(string);
-      $(listID).append($html);
-      track.push(type);
-    }
-  }
-};

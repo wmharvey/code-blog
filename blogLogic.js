@@ -1,38 +1,21 @@
 $(function() {
 
-// This function makes the Article object. Use it by calling
-// new makeArticle(blog.rawData[i])
-  function makeArticle(obj) {
-    this.title = obj.title;
-    this.category = obj.category;
-    this.author = obj.author;
-    this.authorUrl = obj.authorUrl;
-    this.publishedOn = obj.publishedOn;
-    this.body = obj.body;
-  }
-
-  // This function takes an object created by the makeArticle constructor
-  // and creates HTML that is then returned to be inserted into the DOM
-  makeArticle.prototype.toHtml = function() {
-    var $newArticle = $('article.arTemplate').clone();
-    $newArticle.removeClass('arTemplate');
-    $newArticle.find('.title').html(this.title);
-    $newArticle.find('.author').html(this.author);
-    $newArticle.find('time').html('Published ' + parseInt((new Date()
-    - new Date(this.publishedOn))/60/60/24/1000) + ' days ago');
-    $newArticle.find('.body').html(this.body);
-    $newArticle.find('.category').html(this.category);
-    $newArticle.find('.url').attr('href', this.authorUrl);
-    return $newArticle;
-  };
-
 // Sort the articles initially by date
   blog.rawData.sort(byDate);
 
-//Load all the articles onto the blog website
+// Use Handlebars to fill in the article template
+  Handlebars.registerHelper('getDate', function(strDate){
+    var strDate = strDate || '';
+    var date = parseInt((new Date() - new Date(strDate))/60/60/24/1000);
+    return date;
+  });
+
+  var templateScript = $('#article-template').html();
+  var template = Handlebars.compile(templateScript);
   for (var i = 0; i < blog.rawData.length; i++) {
-    $('.arTemplate').after(new makeArticle(blog.rawData[i]).toHtml());
-  }
+    var compiledSingleArticleHtml = template(blog.rawData[i]);
+    $('#blogContainer').append(compiledSingleArticleHtml);
+  };
 
 // Hide the paragraphs initially
   var $articleBody = $('.body');
