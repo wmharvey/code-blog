@@ -5,7 +5,7 @@
   <head>
     <title>Day1 Pieces</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
     <link rel="stylesheet" href="style.css">
   </head>
 
@@ -17,15 +17,13 @@
           <div id="menu-button">
             <p>Menu</p>
           </div>
-          <div id="logo-button">
-            <p>HarveyBlogs</p>
-          </div>
         </div>
       </div>
     </nav>
 
     <nav class = "menu">
       <div class="table">
+        <div id="close-tab">Close</div>
         <ul>
           <li>Articles</li>
           <li>About</li>
@@ -36,7 +34,7 @@
     </nav>
 
     <header id="first-view">
-        <h1>Welcome!</h1>
+        <h1>HarveyBlogs</h1>
     </header>
 
     <nav id="filters">
@@ -59,7 +57,7 @@
         <p>Categories: </p>
         <article class = "category">Category</article>
         <a class="link url" target="_blank">Original Article</a>
-        <a class="more">See More</a>
+        <a class="more link">See More</a>
       </article>
 
     </section>
@@ -69,10 +67,12 @@
     </footer>
 
     <script src = "http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src = "jquery.mobile.orientation/jquery.mobile.custom.js"></script>
     <script src = "blogObject.js"></script>
     <script src = "blogArticles.js"></script>
     <script src = "util.js"></script>
     <script src="blogLogic.js"></script>
+    <script src="responsiveDesign.js"></script>
   </body>
 
 </html>

@@ -41,11 +41,6 @@ $(function() {
     $this.children().filter(':gt(0)').hide();
   });
 
-// Expand the about link when clicked
-  $('.toggle').on('click', function() {
-    $('.about').toggle(500);
-  });
-
 // Expand and Minimize the article when "more" or "less" is clicked
   $('.more').on('click', function() {
     var $this = $(this);
