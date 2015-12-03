@@ -174,8 +174,8 @@ time, a {
   cursor: s-resize;
 }
 
-
 /*-------*/
+
 /*Menu button*/
 .menu {
   display: none;
@@ -209,4 +209,10 @@ nav.menu ul {
 
 .menu li {
   margin-bottom: 20px;
+}
+
+/*Footer*/
+footer {
+	text-align: center;
+	margin-bottom: 15px;
 }
