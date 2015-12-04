@@ -2,7 +2,7 @@ var blog = new Object();
 
 // Use Handlebars to fill in the article template
 // Register a Handlebar helper to calculate publication date
-// Append new template to the section with ID '#blogContainer'
+// Append new template to the section with ID '#articleContainer'
 blog.fillTemplates = function() {
 
   Handlebars.registerHelper('getDate', function(strDate){
@@ -15,7 +15,7 @@ blog.fillTemplates = function() {
   var template = Handlebars.compile(templateScript);
   for (var i = 0; i < blog.rawData.length; i++) {
     var compiledSingleArticleHtml = template(blog.rawData[i]);
-    $('#blogContainer').append(compiledSingleArticleHtml);
+    $('#articleContainer').append(compiledSingleArticleHtml);
   };
 
 };

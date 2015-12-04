@@ -1,3 +1,6 @@
+/*
+* === BASE ===
+*/
 @import url(https://fonts.googleapis.com/css?family=Crimson+Text);
 
 /*Meyer Reset*/
@@ -83,7 +86,13 @@ link {
   text-decoration: none;
 }
 
-/*Fixed Header*/
+/*
+* === LAYOUT ===
+*/
+
+/*
+*-Fixed navigation bar-
+*/
 
 #main-navbar {
   position: fixed;
@@ -100,14 +109,17 @@ link {
   position: relative;
 }
 
-#menu-button {
+.menu-button {
   display: inline-block;
   width: 20%;
 	cursor: pointer;
 	text-align: center;
 }
 
-/*Main intro, fills screen*/
+/*
+*- Header -
+*/
+
 #first-view {
   width: 100%;
   background-image: url('../images/main-image.jpg');
@@ -117,21 +129,25 @@ link {
   margin-bottom: 50px;
 }
 
-#first-view > h1 {
+.blog-name {
   text-align: center;
   position: relative;
   font-size: 2.5em;
   font-weight: bold;
 }
 
-/*Drop-down list*/
+/*
+*- Dropdown List -
+*/
 
 select {
   display: block;
   margin: 20px auto;
 }
 
-/*Main content*/
+/*
+*- Articles Container -
+*/
 
 .articleBundle {
   margin: 50px auto;
@@ -166,9 +182,10 @@ select {
   cursor: s-resize;
 }
 
-/*-------*/
+/*
+*- Dropdown menu -
+*/
 
-/*Menu layover*/
 #dropdown-menu {
   display: none;
   position: fixed;
@@ -184,7 +201,7 @@ div.table {
   width: 100%;
 }
 
-#close-tab {
+.close-tab {
   position: fixed;
   top: 0;
   left: 0;
@@ -205,13 +222,16 @@ nav#dropdown-menu ul {
 	cursor: pointer;
 }
 
-#dropdown-menu ul li:hover, #close-tab:hover, #menu-button:hover {
-	color: #a9b2b9;
-}
 
+/*
+*- Footer -
+*/
 
-/*Footer*/
 footer {
 	text-align: center;
 	margin-bottom: 15px;
 }
+
+/*
+* === MODULES ===
+*/

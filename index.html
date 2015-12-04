@@ -13,37 +13,35 @@
   <body id = "top">
 
     <nav id="main-navbar">
-      <div class="wrapper clearfix">
-        <div class="row">
-          <div id="menu-button">
-            <p>Menu</p>
-          </div>
+      <div class="wrapper">
+        <div class="menu-button nav-button link">
+          <p>Menu</p>
         </div>
       </div>
     </nav>
 
     <nav id="dropdown-menu">
       <div class="table">
-        <div id="close-tab">X</div>
+        <div class="close-tab link">X</div>
         <ul>
-          <li>Articles</li>
-          <li>About</li>
-          <li>Twitter</li>
-          <li>Github</li>
+          <li class="link">Articles</li>
+          <li class="link">About</li>
+          <li class="link">Twitter</li>
+          <li class="link">Github</li>
         </ul>
       </div>
     </nav>
 
     <header id="first-view">
-        <h1>HarveyBlogs</h1>
+        <h1 class="blog-name">HarveyBlogs</h1>
     </header>
 
     <nav id="filters">
       <select id="authorList">
-        <option value="default" selected>Sort by Author</option>
+        <option value="default">Sort by Author</option>
       </select>
       <select id="categoryList">
-        <option value="default" selected>Sort by Category</option>
+        <option value="default">Sort by Category</option>
       </select>
     </nav>
 
@@ -63,13 +61,13 @@
     </script>
     <!-- End Handlebars Template -->
 
-    <section class="grid container" id="blogContainer">
+    <section id="articleContainer">
 
     <!-- Insert templates here -->
 
     </section>
 
-    <footer class = "container">
+    <footer id="footer">
       <a href = "#top">Back to top</a>
     </footer>
 
