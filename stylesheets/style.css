@@ -1,6 +1,5 @@
-@import url(http://necolas.github.io/normalize.css/3.0.2/normalize.css);
-
 @import url(https://fonts.googleapis.com/css?family=Crimson+Text);
+
 /*Meyer Reset*/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -86,7 +85,7 @@ link {
 
 /*Fixed Header*/
 
-.main-navbar {
+#main-navbar {
   position: fixed;
   width: 100%;
   top: 0;
@@ -111,7 +110,7 @@ link {
 /*Main intro, fills screen*/
 #first-view {
   width: 100%;
-  background-image: url('main-image.jpg');
+  background-image: url('../images/main-image.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center left;
@@ -170,7 +169,7 @@ select {
 /*-------*/
 
 /*Menu layover*/
-.menu {
+#dropdown-menu {
   display: none;
   position: fixed;
   background: rgba(255,255,255,.8);
@@ -194,19 +193,19 @@ div.table {
 	cursor: pointer;
 }
 
-nav.menu ul {
+nav#dropdown-menu ul {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
   font-size: 1.5em;
 }
 
-.menu li {
+#dropdown-menu li {
   margin-bottom: 20px;
 	cursor: pointer;
 }
 
-.menu ul li:hover, #close-tab:hover, #menu-button:hover {
+#dropdown-menu ul li:hover, #close-tab:hover, #menu-button:hover {
 	color: #a9b2b9;
 }
 
