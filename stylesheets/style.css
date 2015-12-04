@@ -71,8 +71,8 @@ body {
   color: #3B3B3B;
 }
 
-a {
-	display: block;
+.link {
+	text-decoration: none;
 }
 
 img {
@@ -80,10 +80,6 @@ img {
   display: block;
   margin: 15px auto;
 
-}
-
-link {
-  text-decoration: none;
 }
 
 /*

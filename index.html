@@ -49,14 +49,12 @@
     <script id="article-template" type="text/x-handlebars-template">
       <section class="articleBundle">
         <header class="title">{{title}}</header>
-        <p>By: </p>
-        <p class="author">{{author}}</p>
+        <span>By: <span class="author">{{author}}</span><br /></span>
         <time>Published {{getDate this.publishedOn}} days ago</time>
         <article class="body">{{{body}}}</article>
-        <p>Categories: </p>
-        <p class="category">{{category}}</p>
-        <a class="link url" target="_blank" href="{{authorUrl}}">Original Article</a>
-        <a class="more link">See More</a>
+        <span>Categories: <span class="category">{{category}}</span><br /></span>
+        <a class="link url" target="_blank" href="{{authorUrl}}">Original Article</a><br />
+        <a class="link more">See More</a>
       </section>
     </script>
     <!-- End Handlebars Template -->

@@ -1,0 +1,68 @@
+<DOCTYPE! html>
+<head>
+  <meta lang="en">
+ <title>New Blog Entry</title>
+
+ </head>
+
+ <body>
+   <header>
+     <h1>Enter a New Blog Here</h1>
+
+     <div>
+       <p> Title:</p>
+       <input type="text" id="title"/>
+     </div>
+
+     <div>
+       <p>Category:</p>
+       <input type="text" id="category"/>
+    </div>
+
+     <div>
+      <p>Author:</p>
+      <input type="text" id="author"/>
+    </div>
+
+    <div>
+      <p>Author URL:</p>
+      <input type="text" id="authorUrl"/>
+    </div>
+
+    <div>
+      <p>Published Date:</p>
+      <input type="date" id="pubDate"/>
+    </div>
+
+    <div>
+      <p>Main Content:</p>
+      <textarea id="body"></textarea>
+    </div>
+
+    <div>
+      <h2>Preview</h2>
+      <div>
+        <div id="prevTitle"></div>
+        <div id="prevCat"></div>
+        <div id="prevAuth"></div>
+        <div id="prevUrl"></div>
+        <div id="prevDate"></div>
+        <div id="prevBody"></div>
+      </div>
+    </div>
+
+    <div>
+      <h2>Article Object</h2>
+      <div id="JSON"></div>
+    </div>
+
+
+
+<script src = "http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="libraries/marked.min.js"></script>
+<script src="javascript/newentry.js"></script>
+
+
+
+  </body>
+  </html>
