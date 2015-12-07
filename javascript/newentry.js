@@ -43,24 +43,9 @@ $(function(){
       $('#articleContainer').find('pre code').each(function(i, block) {
         hljs.highlightBlock(block);
       });
-    });
-
-    blog.hideFirstParagraph();
-
-    $('.more').on('click', function() {
-      var $this = $(this);
-      $this.siblings('.body').children().filter(':gt(0)').slideToggle(500);
-      var str = $this.text();
-      if (str === 'See More') {
-        $this.text('See Less');
-        $this.css('cursor', 'n-resize');
-      } else {
-        $this.text('See More');
-        $this.css('cursor', 's-resize');
-        $('html, body').animate({
-          scrollTop: $($this.siblings('.title')).offset().top
-        }, 500);
-      }
+//Hide the first paragraph and enable 'See More' to drop down paragraphs
+      blog.hideFirstParagraph();
+      blog.addEventListernerMore();
     });
 
   };

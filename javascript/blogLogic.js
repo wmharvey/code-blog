@@ -6,8 +6,6 @@ $(function() {
   blog.rawData.sort(blog.byDate);
 // Use Handlebars to fill in the article template
   blog.fillTemplates();
-// Hide the paragraphs initially
-  blog.hideFirstParagraph();
 // Create a dropdown list for Authors
   blog.rawData.sort(blog.byReverseAuthor);
   blog.createDropdown('author', '#authorList');
@@ -25,23 +23,6 @@ $(function() {
 //Filter the articles based on user selected category
   $('#categoryList').change(function() {
     blog.filter('#categoryList', 'Sort by Category', '.category');
-  });
-
-// Expand and Minimize the article when "more" or "less" is clicked
-  $('.more').on('click', function() {
-    var $this = $(this);
-    $this.siblings('.body').children().filter(':gt(0)').slideToggle(500);
-    var str = $this.text();
-    if (str === 'See More') {
-      $this.text('See Less');
-      $this.css('cursor', 'n-resize');
-    } else {
-      $this.text('See More');
-      $this.css('cursor', 's-resize');
-      $('html, body').animate({
-        scrollTop: $($this.siblings('.title')).offset().top
-      }, 500);
-    }
   });
 
 });

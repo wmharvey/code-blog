@@ -17,6 +17,8 @@ blog.fillTemplates = function() {
       var compiledSingleArticleHtml = template(blog.rawData[i]);
       $('#articleContainer').append(compiledSingleArticleHtml);
     };
+    blog.hideFirstParagraph();
+    blog.addEventListernerMore();
   });
 };
 
@@ -26,6 +28,25 @@ blog.hideFirstParagraph = function() {
   $articleBody.each(function() {
     var $this = $(this);
     $this.children().filter(':gt(0)').hide();
+  });
+};
+
+// Expand and Minimize the article when "more" or "less" is clicked
+blog.addEventListernerMore = function() {
+  $('.more').on('click', function() {
+    var $this = $(this);
+    $this.siblings('.body').children().filter(':gt(0)').slideToggle(500);
+    var str = $this.text();
+    if (str === 'See More') {
+      $this.text('See Less');
+      $this.css('cursor', 'n-resize');
+    } else {
+      $this.text('See More');
+      $this.css('cursor', 's-resize');
+      $('html, body').animate({
+        scrollTop: $($this.siblings('.title')).offset().top
+      }, 500);
+    }
   });
 };
 
