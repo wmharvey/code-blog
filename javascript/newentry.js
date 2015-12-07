@@ -35,12 +35,34 @@ $(function(){
       return date;
     });
 
-    var templateScript = $('#article-template').html();
-    var template = Handlebars.compile(templateScript);
-    var compiledArticleHtml = template(newArticle);
-    $('#articleContainer').html(compiledArticleHtml);
+    $.get('templates/template.html', function(data) {
+      var template = Handlebars.compile(data);
+      var compiledArticleHtml = template(newArticle);
+      $('#articleContainer').html(compiledArticleHtml);
+//Use syntax highlighting on author written code
+      $('#articleContainer').find('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });
 
     blog.hideFirstParagraph();
+
+    $('.more').on('click', function() {
+      var $this = $(this);
+      $this.siblings('.body').children().filter(':gt(0)').slideToggle(500);
+      var str = $this.text();
+      if (str === 'See More') {
+        $this.text('See Less');
+        $this.css('cursor', 'n-resize');
+      } else {
+        $this.text('See More');
+        $this.css('cursor', 's-resize');
+        $('html, body').animate({
+          scrollTop: $($this.siblings('.title')).offset().top
+        }, 500);
+      }
+    });
+
   };
 
   $title.on('input', render);
@@ -49,26 +71,5 @@ $(function(){
   $authorUrl.on('input', render);
   $pubDate.on('input', render);
   $body.on('input', render);
-
-  $('.more').on('click', function() {
-    console.log('help!')
-    var $this = $(this);
-    $this.siblings('.body').children().filter(':gt(0)').slideToggle(500);
-    var str = $this.text();
-    if (str === 'See More') {
-      $this.text('See Less');
-      $this.css('cursor', 'n-resize');
-    } else {
-      $this.text('See More');
-      $this.css('cursor', 's-resize');
-      $('html, body').animate({
-        scrollTop: $($this.siblings('.title')).offset().top
-      }, 500);
-    }
-  });
-
-  $('.more').on('click', function() {
-    console.log('clicked');
-  })
 
 });

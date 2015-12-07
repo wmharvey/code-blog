@@ -6,20 +6,18 @@
 
 .entry {
   margin: 20px 10px;
+  font-size: 1.2em;
 }
 
 input {
   margin-left: 5px;
+  height: 2em;
 }
 
 textarea {
   width: 75%;
   height: 200px;
   margin: 20px 10px;
-}
-
-.more {
-  z-index: 9999;
 }
 
 .new-section {

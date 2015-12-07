@@ -45,20 +45,6 @@
       </select>
     </nav>
 
-    <!-- Start Handlebars Template -->
-    <script id="article-template" type="text/x-handlebars-template">
-      <section class="articleBundle">
-        <header class="title">{{title}}</header>
-        <span>By: <span class="author">{{author}}</span><br /></span>
-        <time>Published {{getDate this.publishedOn}} days ago</time>
-        <article class="body">{{{body}}}</article>
-        <span>Categories: <span class="category">{{category}}</span><br /></span>
-        <a class="link url" target="_blank" href="{{authorUrl}}">Original Article</a><br />
-        <a class="link more">See More</a>
-      </section>
-    </script>
-    <!-- End Handlebars Template -->
-
     <section id="articleContainer">
 
     <!-- Insert templates here -->

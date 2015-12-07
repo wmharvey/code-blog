@@ -11,13 +11,13 @@ blog.fillTemplates = function() {
     return date;
   });
 
-  var templateScript = $('#article-template').html();
-  var template = Handlebars.compile(templateScript);
-  for (var i = 0; i < blog.rawData.length; i++) {
-    var compiledSingleArticleHtml = template(blog.rawData[i]);
-    $('#articleContainer').append(compiledSingleArticleHtml);
-  };
-
+  $.get('templates/template.html', function(data) {
+    var template = Handlebars.compile(data);
+    for (var i = 0; i < blog.rawData.length; i++) {
+      var compiledSingleArticleHtml = template(blog.rawData[i]);
+      $('#articleContainer').append(compiledSingleArticleHtml);
+    };
+  });
 };
 
 // Hides the first paragraph of every article when called
