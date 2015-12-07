@@ -71,7 +71,7 @@ body {
   color: #3B3B3B;
 }
 
-.link {
+.link, a {
 	text-decoration: none;
 }
 
@@ -79,7 +79,6 @@ img {
   max-width: 100%;
   display: block;
   margin: 15px auto;
-
 }
 
 /*
@@ -149,16 +148,16 @@ select {
   margin: 50px auto;
 }
 
+.articleBundle > * {
+	padding: 10px;
+	margin-top: 10px;
+}
+
 .title {
   font-size: 1.5em;
   text-align: center;
   background-color: #F5F4F0;
   padding: 14px 0;
-}
-
-.articleBundle > p {
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 
 .more {
@@ -206,7 +205,7 @@ div.table {
 	cursor: pointer;
 }
 
-nav#dropdown-menu ul {
+#dropdown-menu ul {
   display: table-cell;
   vertical-align: middle;
   text-align: center;

@@ -57,7 +57,7 @@ blog.filter = function(selectID, defaultText, templateClass) {
     $(templateClass).each(function() {
       var $this = $(this);
       if ($this.text() !== txt) {
-        $this.parent('.articleBundle').hide();
+        $this.parents('.articleBundle').hide();
       }
     });
   }

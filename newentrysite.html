@@ -1,68 +1,112 @@
-<DOCTYPE! html>
+<!DOCTYPE html>
+
+<html lang="en">
+
 <head>
-  <meta lang="en">
- <title>New Blog Entry</title>
+  <title>New Blog Entry</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <link rel="stylesheet" href="stylesheets/newentry.css">
+  <script src=libraries/handlebars-v4.0.5.js></script>
+</head>
 
- </head>
+<body id="top">
 
- <body>
-   <header>
-     <h1>Enter a New Blog Here</h1>
-
-     <div>
-       <p> Title:</p>
-       <input type="text" id="title"/>
-     </div>
-
-     <div>
-       <p>Category:</p>
-       <input type="text" id="category"/>
-    </div>
-
-     <div>
-      <p>Author:</p>
-      <input type="text" id="author"/>
-    </div>
-
-    <div>
-      <p>Author URL:</p>
-      <input type="text" id="authorUrl"/>
-    </div>
-
-    <div>
-      <p>Published Date:</p>
-      <input type="date" id="pubDate"/>
-    </div>
-
-    <div>
-      <p>Main Content:</p>
-      <textarea id="body"></textarea>
-    </div>
-
-    <div>
-      <h2>Preview</h2>
-      <div>
-        <div id="prevTitle"></div>
-        <div id="prevCat"></div>
-        <div id="prevAuth"></div>
-        <div id="prevUrl"></div>
-        <div id="prevDate"></div>
-        <div id="prevBody"></div>
+  <nav id="main-navbar">
+    <div class="wrapper">
+      <div class="menu-button nav-button link">
+        <p>Menu</p>
       </div>
     </div>
+  </nav>
 
-    <div>
-      <h2>Article Object</h2>
-      <div id="JSON"></div>
+  <nav id="dropdown-menu">
+    <div class="table">
+      <div class="close-tab link">X</div>
+      <ul>
+        <li class="link">Articles</li>
+        <li class="link">About</li>
+        <li class="link">Twitter</li>
+        <li class="link">Github</li>
+      </ul>
     </div>
+  </nav>
 
+  <header id="first-view">
+      <h1 class="blog-name">HarveyBlogs</h1>
+  </header>
 
+  <header id="main-header">
+    <h1>Enter a New Blog Here</h1>
+  </header>
 
-<script src = "http://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="libraries/marked.min.js"></script>
-<script src="javascript/newentry.js"></script>
+  <div class="entry">
+    Title: <input type="text" id="title"/>
+  </div>
 
+  <div class="entry">
+    Category: <input type="text" id="category"/>
+  </div>
 
+  <div class="entry">
+    Author: <input type="text" id="author"/>
+  </div>
 
-  </body>
-  </html>
+  <div class="entry">
+    Author URL: <input type="text" id="authorUrl"/>
+  </div>
+
+  <div class="entry">
+    Published Date: <input type="date" id="pubDate"/>
+  </div>
+
+  <div class="entry">
+    <div>Main Content: </div>
+    <textarea id="body"></textarea>
+  </div>
+
+  <!-- Start Handlebars Template -->
+  <script id="article-template" type="text/x-handlebars-template">
+    <section class="articleBundle">
+      <header class="title">{{title}}</header>
+      <span>By: <span class="author">{{author}}</span><br /></span>
+      <time>Published {{getDate this.publishedOn}} days ago</time>
+      <article class="body">{{{body}}}</article>
+      <span>Categories: <span class="category">{{category}}</span><br /></span>
+      <a class="link url" target="_blank" href="{{authorUrl}}">Original Article</a><br />
+      <a class="link more">See More</a>
+    </section>
+  </script>
+  <!-- End Handlebars Template -->
+
+  <section class="new-section">PREVIEW OF THE ARTICLE</section>
+
+  <hr />
+
+  <section id="articleContainer">
+
+  <!-- Insert templates here -->
+
+  </section>
+
+  <hr />
+
+  <div class="new-section">
+    <h2>COPY AND PASTE THE FOLLOWING INTO THE BLOG OBJECT</h2>
+    <div id="JSON"></div>
+  </div>
+
+  <footer id="footer">
+    <a href = "#top">Back to top</a>
+  </footer>
+
+  <script src = "http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src = "libraries/jquery.mobile.orientation/jquery.mobile.custom.js"></script>
+  <script src="libraries/marked.min.js"></script>
+  <script src = "javascript/blogObject.js"></script>
+  <script src="javascript/newentry.js"></script>
+  <script src="javascript/responsiveDesign.js"></script>
+</body>
+
+</html>

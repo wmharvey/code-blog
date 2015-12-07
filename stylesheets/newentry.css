@@ -1,0 +1,32 @@
+#main-header {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 30px;
+}
+
+.entry {
+  margin: 20px 10px;
+}
+
+input {
+  margin-left: 5px;
+}
+
+textarea {
+  width: 75%;
+  height: 200px;
+  margin: 20px 10px;
+}
+
+.more {
+  z-index: 9999;
+}
+
+.new-section {
+  text-align: center;
+  margin: 20px 0;
+}
+
+#JSON {
+  margin: 20px 0;
+}

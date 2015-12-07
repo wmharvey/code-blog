@@ -20,5 +20,4 @@ $('.menu-button').on('click', function () {
 
 $('.close-tab').on('click', function () {
   $('#dropdown-menu').slideUp(500);
-
 });
