@@ -83,7 +83,7 @@ blog.fillTemplates = function(articlesArray) {
     blog.hideFirstParagraph();
     blog.addEventListernerMore();
   });
-  $('.articleBundle').find('pre code').each(function(i, block) {
+  $('pre code').each(function(i, block) {
     hljs.highlightBlock(block);
   });
 };
