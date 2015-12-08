@@ -16,8 +16,10 @@ blog.getData = function() {
 blog.compareETags = function(data, status, xhr) {
   eTag = xhr.getResponseHeader('eTag');
   if (eTag === localStorage.getItem('eTag')) {
+    console.log('hit');
     blog.loadFromLocal();
   } else {
+    console.log('miss');
     localStorage.setItem('eTag', eTag);
     blog.loadFromJSON();
   };
