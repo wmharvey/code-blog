@@ -1,9 +1,70 @@
 var blog = new Object();
 
+//Send an ajax request to get an eTag to compare
+blog.getData = function() {
+  $.ajax({
+    type: 'HEAD',
+    url: 'javascript/blogArticles.json',
+    success: blog.compareETags
+  });
+};
+
+//Compare the eTag to an eTag in localStorage. If it matches, the
+//data is the same and can be aquired from localStorage. If it
+//doesn't match, we update the eTag in localStorage and send a JSON
+//request to get updated articles
+blog.compareETags = function(data, status, xhr) {
+  eTag = xhr.getResponseHeader('eTag');
+  if (eTag === localStorage.getItem('eTag')) {
+    blog.loadFromLocal();
+  } else {
+    localStorage.setItem('eTag', eTag);
+    blog.loadFromJSON();
+  };
+};
+
+//Send JSON request, store the returned object in localStorage
+//as a string, call a function to load data from the localStorage
+blog.loadFromJSON = function() {
+  $.getJSON('javascript/blogArticles.json', function(data) {
+    var stringArticles = JSON.stringify(data);
+    localStorage.setItem('articles', stringArticles);
+    blog.loadFromLocal();
+  });
+};
+
+//Parse out an array from localStorage, sort to convert markdown
+//and create two dropdown boxes
+blog.loadFromLocal = function() {
+  var stringArticles = localStorage.getItem('articles');
+  var articlesArray = JSON.parse(stringArticles);
+  articlesArray.sort(blog.byDate);
+  blog.convertToHTML(articlesArray);
+  articlesArray.sort(blog.byReverseAuthor);
+  blog.createDropdown(articlesArray, 'author', '#authorList');
+  articlesArray.sort(blog.byCategory);
+  blog.createDropdown(articlesArray, 'category', '#categoryList');
+};
+
+//Receives an array to convert "markdown" key-value pairs to "body"
+//key-value pairs. Calls fillTemplate once completed.
+blog.convertToHTML = function(articlesArray) {
+  articlesArray.forEach(function(item, index, array) {
+    var body = item.markdown;
+    if (body !== undefined) {
+      var bodyHTML = marked(body);
+      item.body = bodyHTML;
+    }
+  });
+  blog.fillTemplates(articlesArray);
+};
+
+
 // Use Handlebars to fill in the article template
 // Register a Handlebar helper to calculate publication date
 // Append new template to the section with ID '#articleContainer'
-blog.fillTemplates = function() {
+// Hide the first paragraph and make "see more" responsive
+blog.fillTemplates = function(articlesArray) {
 
   Handlebars.registerHelper('getDate', function(strDate){
     var strDate = strDate || '';
@@ -13,12 +74,15 @@ blog.fillTemplates = function() {
 
   $.get('templates/template.html', function(data) {
     var template = Handlebars.compile(data);
-    for (var i = 0; i < blog.rawData.length; i++) {
-      var compiledSingleArticleHtml = template(blog.rawData[i]);
+    for (var i = 0; i < articlesArray.length; i++) {
+      var compiledSingleArticleHtml = template(articlesArray[i]);
       $('#articleContainer').append(compiledSingleArticleHtml);
     };
     blog.hideFirstParagraph();
     blog.addEventListernerMore();
+  });
+  $('.articleBundle').find('pre code').each(function(i, block) {
+    hljs.highlightBlock(block);
   });
 };
 
@@ -54,10 +118,10 @@ blog.addEventListernerMore = function() {
 // The parameter byType accepts a string with an article object key. ex: 'author'
 // The parameter listClass accepts a string that is the dropdown's id
 // that begins with a '#'. ex: '#authorList'
-blog.createDropdown = function(byType, listID) {
+blog.createDropdown = function(articlesArray, byType, listID) {
   var track = [];
-  for (var i = 0; i < blog.rawData.length; i++) {
-    var type = blog.rawData[i][byType];
+  for (var i = 0; i < articlesArray.length; i++) {
+    var type = articlesArray[i][byType];
     if (track.indexOf(type) === -1) {
       var string = '<option>' + type + '</option>';
       var $html = $(string);
