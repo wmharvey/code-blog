@@ -1,9 +1,10 @@
 <section class="articleBundle">
   <header class="title">{{title}}</header>
-  <span>By: <span class="author">{{author}}</span><br /></span>
-  <time>Published {{getDate this.publishedOn}} days ago</time>
+  <i><span>By: <span class="author">{{author}}</span><br /></span></i>
+  <i><time>Published {{getDate this.publishedOn}} days ago</time></i>
   <article class="body">{{{body}}}</article>
   <a class="link more">See More</a>
-  <span>Categories: <span class="category">{{category}}</span><br /></span>
+  <i><span>Categories: <span class="category">{{category}}</span><br /></span></i>
   <a class="link url" target="_blank" href="{{authorUrl}}">Original Article</a><br />
+  <div class="word-count">Word Count: {{getWordCount this}}</div>
 </section>

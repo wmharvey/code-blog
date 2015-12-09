@@ -1,20 +1,20 @@
 
-//function that computes the number of unique authors
-function numAuthors(articlesArray) {
+//create an array of unique authors
+function uniqueAuthors(articlesArray) {
   var unique = [];
   articlesArray.forEach(function(currentObj) {
     if (unique.indexOf(currentObj.author) === -1) {
       unique.push(currentObj.author);
     };
   });
-  return unique.length;
+  return unique;
 }
 
 //function that strips the html tags and returns the text
 function stripTags(articleHTML) {
   var $temp = $('<div></div>');
   $temp.html(articleHTML);
-  return $temp.text() || "";
+  return $temp.text() || '';
 }
 
 //function that counts total words
@@ -49,10 +49,16 @@ function arrayOfWords(currentObj) {
   return newArray;
 }
 
+//returns how many articles fit the criteria
+function articlesByType(articlesArray, keyType, value) {
+  var filteredArray = articlesArray.filter(makeSearchFilter(keyType, value));
+  return filteredArray.length;
+}
 
-//function that calculates average word length
+
+//function that calculates average word count
 //If keyType and author are specified, it will return the average
-//word length of all articles of the type(ex 'author', 'Macklemore')
+//word count of all articles of the type(ex 'author', 'Macklemore')
 function averageWordCount(articlesArray, keyType, value) {
   var arrayOfLengths = [];
   if (keyType && value) {
@@ -77,9 +83,11 @@ function averageWordCount(articlesArray, keyType, value) {
 function makeSearchFilter(keyType, value) {
   return function(article) {
     return article[keyType] === value;
-  }
+  };
 }
 
+//computes the average word length of all the articles,
+//or of a specific filtered type
 function averageWordLength(articlesArray, keyType, value) {
   var arrayOfLengths = [];
   if (keyType && value) {
@@ -95,7 +103,7 @@ function averageWordLength(articlesArray, keyType, value) {
       var wordArray = arrayOfWords(currentObj);
       wordArray.forEach(function(item) {
         arrayOfLengths.push(item.length);
-      })
+      });
     });
   }
   var total = arrayOfLengths.reduce(function(a, b) {

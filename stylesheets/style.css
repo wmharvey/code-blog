@@ -161,9 +161,6 @@ select {
   padding: 14px 0;
 }
 
-.more {
-  margin: 14px 0;
-}
 
 .body > p {
   margin: 14px 0;
@@ -175,8 +172,10 @@ select {
 }
 
 .more {
+  margin: 14px 0;
   cursor: s-resize;
   color: #8E001C;
+  font-weight: bold;
 }
 
 /*
