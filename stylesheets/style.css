@@ -82,7 +82,7 @@ img {
 }
 
 /*
-* === LAYOUT ===
+* === MODULES ===
 */
 
 /*
@@ -149,6 +149,7 @@ select {
 }
 
 .articleBundle > * {
+  display: block;
 	padding: 10px;
 	margin-top: 10px;
 }
@@ -175,6 +176,7 @@ select {
 
 .more {
   cursor: s-resize;
+  color: #8E001C;
 }
 
 /*

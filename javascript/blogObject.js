@@ -16,10 +16,10 @@ blog.getData = function() {
 blog.compareETags = function(data, status, xhr) {
   eTag = xhr.getResponseHeader('eTag');
   if (eTag === localStorage.getItem('eTag')) {
-    console.log('hit');
+    console.log('cache hit');
     blog.loadFromLocal();
   } else {
-    console.log('miss');
+    console.log('cache miss');
     localStorage.setItem('eTag', eTag);
     blog.loadFromJSON();
   };
@@ -40,25 +40,32 @@ blog.loadFromJSON = function() {
 blog.loadFromLocal = function() {
   var stringArticles = localStorage.getItem('articles');
   var articlesArray = JSON.parse(stringArticles);
-  articlesArray.sort(blog.byDate);
   blog.convertToHTML(articlesArray);
-  articlesArray.sort(blog.byReverseAuthor);
-  blog.createDropdown(articlesArray, 'author', '#authorList');
-  articlesArray.sort(blog.byCategory);
-  blog.createDropdown(articlesArray, 'category', '#categoryList');
+
 };
 
 //Receives an array to convert "markdown" key-value pairs to "body"
 //key-value pairs. Calls fillTemplate once completed.
 blog.convertToHTML = function(articlesArray) {
-  articlesArray.forEach(function(item, index, array) {
+  var articleArrayCopy = articlesArray.slice();
+  articleArrayCopy.sort(blog.byDate);
+  articleArrayCopy.forEach(function(item) {
     var body = item.markdown;
     if (body !== undefined) {
       var bodyHTML = marked(body);
       item.body = bodyHTML;
     }
   });
-  blog.fillTemplates(articlesArray);
+  blog.fillTemplates(articleArrayCopy);
+  console.log("Number of articles: " + articlesArray.length);
+  console.log("Number of authors: " + numAuthors(articlesArray));
+  console.log("Number of words total: " + numWords(articlesArray));
+  console.log("Number of words in an article: " + numWords(articleArrayCopy, 1));
+  console.log("Average word count: " + averageWordCount(articlesArray));
+  console.log("Average word count of Amara Larkin: " + averageWordCount(articlesArray, 'author', 'Amara Larkin'));
+  console.log("Average word length: " + averageWordLength(articlesArray));
+  console.log("Average word length of Horse Whisperer: " + averageWordLength(articlesArray, 'author', 'Horse Whisperer'));
+  blog.formatPage(articlesArray);
 };
 
 
@@ -80,20 +87,32 @@ blog.fillTemplates = function(articlesArray) {
       var compiledSingleArticleHtml = template(articlesArray[i]);
       $('#articleContainer').append(compiledSingleArticleHtml);
     };
-    blog.hideFirstParagraph();
-    blog.addEventListernerMore();
-  });
-  $('pre code').each(function(i, block) {
-    hljs.highlightBlock(block);
+    $('pre code').each(function(i, block) {
+      hljs.highlightBlock(block);
+      blog.hideFirstParagraph();
+      blog.addEventListernerMore();
+    });
   });
 };
+
+blog.formatPage = function(articlesArray) {
+  blog.loadDropDowns(articlesArray);
+  blog.addEventListernerAuthor();
+  blog.addEventListernerCategory();
+}
+
+blog.loadDropDowns = function(articlesArray) {
+  articlesArray.sort(blog.byReverseAuthor);
+  blog.createDropdown(articlesArray, 'author', '#authorList');
+  articlesArray.sort(blog.byCategory);
+  blog.createDropdown(articlesArray, 'category', '#categoryList');
+}
 
 // Hides the first paragraph of every article when called
 blog.hideFirstParagraph = function() {
   var $articleBody = $('.body');
   $articleBody.each(function() {
-    var $this = $(this);
-    $this.children().filter(':gt(0)').hide();
+    $(this).children().filter(':gt(0)').hide();
   });
 };
 
@@ -115,6 +134,20 @@ blog.addEventListernerMore = function() {
     }
   });
 };
+
+//Filter the articles based on user selected author
+blog.addEventListernerAuthor = function() {
+  $('#authorList').change(function() {
+      blog.filter('#authorList', 'Sort by Author', '.author');
+    });
+}
+
+//Filter the articles based on user selected category
+blog.addEventListernerCategory = function() {
+  $('#categoryList').change(function() {
+    blog.filter('#categoryList', 'Sort by Category', '.category');
+  });
+}
 
 // Function will fill out the dropdown box pre-created in the HTML
 // The parameter byType accepts a string with an article object key. ex: 'author'

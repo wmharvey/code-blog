@@ -15,16 +15,4 @@ $(function() {
   // blog.rawData.sort(blog.byCategory);
   // blog.createDropdown('category', '#categoryList');
 
-
-// EVENT LISTENERS
-
-//Filter the articles based on user selected author
-  $('#authorList').change(function() {
-    blog.filter('#authorList', 'Sort by Author', '.author');
-  });
-//Filter the articles based on user selected category
-  $('#categoryList').change(function() {
-    blog.filter('#categoryList', 'Sort by Category', '.category');
-  });
-
 });
