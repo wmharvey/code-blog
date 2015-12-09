@@ -47,6 +47,10 @@ $(function(){
       var date = parseInt((new Date() - new Date(strDate))/60/60/24/1000);
       return date;
     });
+    Handlebars.registerHelper('getWordCount', function(obj) {
+      var text = stripTags(obj.body);
+      return text.split(' ').length;
+    });
 
     $.get('templates/template.html', function(data) {
       var template = Handlebars.compile(data);
@@ -60,7 +64,12 @@ $(function(){
       blog.hideFirstParagraph();
       blog.addEventListernerMore();
     });
-
+//Calculate live article stats
+    var tempArray = [newArticle];
+    var wordCount = averageWordCount(tempArray);
+    $('.wordCount').text('Word Count: ' + wordCount);
+    var wordLength = averageWordLength(tempArray);
+    $('.wordLength').text('Average Word Length: ' + wordLength);
   };
 
   render();

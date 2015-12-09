@@ -28,3 +28,8 @@ textarea {
 #JSON {
   margin: 20px 0;
 }
+
+.stats {
+  margin: 10px;
+  font-size: 1.1em;
+}

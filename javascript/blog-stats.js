@@ -37,15 +37,17 @@ function numWords(articlesArray, index) {
 function wordCount(currentObj) {
   var html = currentObj.body;
   var text = stripTags(html);
-  var newArray = text.split(' ');
-  return newArray.length;
+  var newArray = text.split(/\s+/);
+  // console.log(newArray);
+  // console.log(newArray.length);
+  return newArray.length - 1;
 }
 
 //function that returns an array of words
 function arrayOfWords(currentObj) {
   var html = currentObj.body;
   var text = stripTags(html);
-  var newArray = text.split(' ');
+  var newArray = text.split(/\s+/);
   return newArray;
 }
 
@@ -74,7 +76,8 @@ function averageWordCount(articlesArray, keyType, value) {
   var total = arrayOfLengths.reduce(function(a, b) {
     return a + b;
   });
-  return total/(arrayOfLengths.length);
+  total = total/(arrayOfLengths.length);
+  return Math.round(total * 100) / 100;
 }
 
 //function will create a filter that sorts through an array and
@@ -109,5 +112,6 @@ function averageWordLength(articlesArray, keyType, value) {
   var total = arrayOfLengths.reduce(function(a, b) {
     return a + b;
   });
-  return total/(arrayOfLengths.length);
+  total = total/(arrayOfLengths.length);
+  return Math.round(total * 100) / 100;
 }

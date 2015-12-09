@@ -82,10 +82,12 @@ blog.fillTemplates = function(articlesArray) {
       var compiledSingleArticleHtml = template(articlesArray[i]);
       $('#articleContainer').append(compiledSingleArticleHtml);
     };
+    blog.hideFirstParagraph();
+    blog.addEventListernerMore();
     $('pre code').each(function(i, block) {
       hljs.highlightBlock(block);
-      blog.hideFirstParagraph();
-      blog.addEventListernerMore();
+      // blog.hideFirstParagraph();
+      // blog.addEventListernerMore();
     });
   });
 };
