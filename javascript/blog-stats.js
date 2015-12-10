@@ -37,10 +37,9 @@ function numWords(articlesArray, index) {
 function wordCount(currentObj) {
   var html = currentObj.body;
   var text = stripTags(html);
+  text = text.trim();
   var newArray = text.split(/\s+/);
-  // console.log(newArray);
-  // console.log(newArray.length);
-  return newArray.length - 1;
+  return newArray.length;
 }
 
 //function that returns an array of words

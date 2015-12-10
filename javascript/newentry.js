@@ -1,4 +1,5 @@
 $(function(){
+  
   var $title = $('#title');
   var $category = $('#category');
   var $author = $('#author');

@@ -59,10 +59,14 @@ $(function() {
     var numUniqueAuthors = uniqueAuthors(arrayOfArticles).length;
     var totalWords = numWords(arrayOfArticles);
     var avgWordLength = averageWordLength(arrayOfArticles);
-    $blogStatsTable.append('<tr><th scope="col">Total Number of Articles</th><td>' + numArticles + '</td></tr>');
-    $blogStatsTable.append('<tr><th scope="col">Total Authors</th><td>' + numUniqueAuthors + '</td></tr>');
-    $blogStatsTable.append('<tr><th scope="col">Total Number of Words</th><td>' + totalWords + '</td></tr>');
-    $blogStatsTable.append('<tr><th scope="col">Average Word Length</th><td>' + avgWordLength + '</td></tr>');
+    $blogStatsTable.append('<tr><th scope="col">Total Number of Articles</th><td>'
+     + numArticles + '</td></tr>');
+    $blogStatsTable.append('<tr><th scope="col">Total Authors</th><td>'
+     + numUniqueAuthors + '</td></tr>');
+    $blogStatsTable.append('<tr><th scope="col">Total Number of Words</th><td>'
+     + totalWords + '</td></tr>');
+    $blogStatsTable.append('<tr><th scope="col">Average Word Length</th><td>'
+     + avgWordLength + '</td></tr>');
   };
 
   function fillAuthorStats(arrayOfArticles) {
@@ -73,10 +77,9 @@ $(function() {
       var totalArticles = articlesByType(arrayOfArticles, 'author', name);
       var avgWordCount = averageWordCount(arrayOfArticles, 'author', name);
       var avgWordLength = averageWordLength(arrayOfArticles, 'author', name);
-      $blogStatsTable.append('<tr><th scope="row">' + name + '</th><td>' + totalArticles + '</td><td>' + avgWordCount + '</td><td>' + avgWordLength + '</td></tr>');
-    //  $blogStatsTable.append('<td>' + totalArticles + '</td>');
-    //  $blogStatsTable.append('<td>' + avgWordCount + '</td>');
-    //  $blogStatsTable.append('<td>' + avgWordLength + '</td></tr>');
+      $blogStatsTable.append('<tr><th scope="row">' + name + '</th><td>'
+       + totalArticles + '</td><td>' + avgWordCount + '</td><td>'
+        + avgWordLength + '</td></tr>');
     });
   }
 

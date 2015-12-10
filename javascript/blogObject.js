@@ -1,38 +1,53 @@
-var blog = new Object();
+var blog = {};
+blog.articles = [];
 
 //Send an ajax request to get an eTag to compare
 blog.getData = function() {
   $.ajax({
     type: 'HEAD',
-    url: 'javascript/blogArticles.json',
+    url: 'data/blogArticles.json',
     success: blog.compareETags
   });
+  // .done(loadFromDatabase, formatPage);
 };
 
 //Compare the eTag to an eTag in localStorage. If it matches, the
 //data is the same and can be aquired from localStorage. If it
-//doesn't match, we update the eTag in localStorage and send a JSON
-//request to get updated articles
+//doesn't match, we send a JSON request to get updated articles
 blog.compareETags = function(data, status, xhr) {
   eTag = xhr.getResponseHeader('eTag');
   if (eTag === localStorage.getItem('eTag')) {
     console.log('cache hit');
-    blog.loadFromLocal();
+    // blog.fetchFromDB();
   } else {
     console.log('cache miss');
-    localStorage.setItem('eTag', eTag);
-    blog.loadFromJSON();
+    //remove all articles from blog and DB
+    blog.articles = [];
+    webDB.execute(
+      'DELETE FROM articles',
+      blog.fetchJSON(eTag));
   };
 };
 
 //Send JSON request, store the returned object in localStorage
-//as a string, call a function to load data from the localStorage
-blog.loadFromJSON = function() {
-  $.getJSON('javascript/blogArticles.json', function(data) {
-    var stringArticles = JSON.stringify(data);
-    localStorage.setItem('articles', stringArticles);
-    blog.loadFromLocal();
+//as a string, call a function to load data from the localStorage,
+//save the new eTag to local storage
+blog.fetchJSON = function(eTag) {
+  $.getJSON('data/blogArticles.json', function(data) {
+    data.forEach(function(item) {
+      var article = new Article(item);
+      blog.articles.push(article);
+      webDB.execute(
+        'INSERT INTO articles (title, author, authorUrl, category, publishedOn, body) VALUES ("' + article.title + '", "' + article.author + '", "' + article.authorUrl + '", "' + article.category + '", "' + article.publishedOn + '", "' + article.body + '");'
+      );
+    });
+    localStorage.setItem('eTag', eTag);
+    console.log('store' + eTag);
   });
+};
+
+blog.updateFromJSON = function(data) {
+
 };
 
 //Parse out an array from localStorage, sort to convert markdown
@@ -56,7 +71,6 @@ blog.convertToHTML = function(articlesArray) {
     }
   });
   blog.fillTemplates(articleArrayCopy);
-  blog.formatPage(articlesArray);
 };
 
 
@@ -65,6 +79,8 @@ blog.convertToHTML = function(articlesArray) {
 // Append new template to the section with ID '#articleContainer'
 // Hide the first paragraph and make "see more" responsive
 blog.fillTemplates = function(articlesArray) {
+
+  console.log('fillTemplates');
 
   Handlebars.registerHelper('getDate', function(strDate){
     var strDate = strDate || '';
@@ -76,29 +92,35 @@ blog.fillTemplates = function(articlesArray) {
     return wordCount(obj);
   });
 
+//Asynchronous function. Get the template, then run through the
+//callback function line by line
   $.get('templates/template.html', function(data) {
     var template = Handlebars.compile(data);
-    for (var i = 0; i < articlesArray.length; i++) {
-      var compiledSingleArticleHtml = template(articlesArray[i]);
-      $('#articleContainer').append(compiledSingleArticleHtml);
-    };
-    blog.hideFirstParagraph();
-    blog.addEventListernerMore();
+
+    articlesArray.forEach(function(item) {
+      var compiledHtml = template(item);
+      $('#articleContainer').append(compiledHtml);
+    });
+
     $('pre code').each(function(i, block) {
       hljs.highlightBlock(block);
-      // blog.hideFirstParagraph();
-      // blog.addEventListernerMore();
     });
+
+    blog.formatPage(articlesArray);
   });
 };
 
 blog.formatPage = function(articlesArray) {
+  console.log('formatpage');
   blog.loadDropDowns(articlesArray);
   blog.addEventListernerAuthor();
   blog.addEventListernerCategory();
+  blog.hideFirstParagraph();
+  blog.addEventListernerMore();
 };
 
 blog.loadDropDowns = function(articlesArray) {
+  console.log('loadDropDowns');
   articlesArray.sort(blog.byReverseAuthor);
   blog.createDropdown(articlesArray, 'author', '#authorList');
   articlesArray.sort(blog.byCategory);
@@ -107,6 +129,7 @@ blog.loadDropDowns = function(articlesArray) {
 
 // Hides the first paragraph of every article when called
 blog.hideFirstParagraph = function() {
+  console.log('hidefirstP');
   var $articleBody = $('.body');
   $articleBody.each(function() {
     $(this).children().filter(':gt(0)').hide();
@@ -115,6 +138,7 @@ blog.hideFirstParagraph = function() {
 
 // Expand and Minimize the article when "more" or "less" is clicked
 blog.addEventListernerMore = function() {
+  console.log('addEventListernerMore');
   $('.more').on('click', function() {
     var $this = $(this);
     $this.siblings('.body').children().filter(':gt(0)').slideToggle(500);
@@ -134,6 +158,7 @@ blog.addEventListernerMore = function() {
 
 //Filter the articles based on user selected author
 blog.addEventListernerAuthor = function() {
+  console.log('addEventListernerAuthor');
   $('#authorList').change(function() {
     blog.filter('#authorList', 'Sort by Author', '.author');
   });
@@ -141,6 +166,7 @@ blog.addEventListernerAuthor = function() {
 
 //Filter the articles based on user selected category
 blog.addEventListernerCategory = function() {
+  console.log('addEventListernerCategory');
   $('#categoryList').change(function() {
     blog.filter('#categoryList', 'Sort by Category', '.category');
   });
@@ -151,6 +177,7 @@ blog.addEventListernerCategory = function() {
 // The parameter listClass accepts a string that is the dropdown's id
 // that begins with a '#'. ex: '#authorList'
 blog.createDropdown = function(articlesArray, byType, listID) {
+  console.log('createDropdown');
   var track = [];
   for (var i = 0; i < articlesArray.length; i++) {
     var type = articlesArray[i][byType];

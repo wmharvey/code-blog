@@ -1,9 +1,13 @@
 $(function() {
 
-// RUN WHEN PAGE IS READY
+  //initial web DB
+  webDB.init();
 
-// Get data from file OR local storage
+  // Get data from database or ajax call
   blog.getData();
+
+  //Format the page and add behaviors
+  // blog.formatPage();
 
 
 });
