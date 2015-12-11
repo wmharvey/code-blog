@@ -8,7 +8,6 @@ blog.getData = function() {
     url: 'data/blogArticles.json',
     success: blog.compareETags
   });
-  // .done(loadFromDatabase, formatPage);
 };
 
 //Compare the eTag to an eTag in localStorage. If it matches, the
@@ -18,69 +17,66 @@ blog.compareETags = function(data, status, xhr) {
   eTag = xhr.getResponseHeader('eTag');
   if (eTag === localStorage.getItem('eTag')) {
     console.log('cache hit');
-    // blog.fetchFromDB();
+    webDB.connect('blogDB', 'Blog Database', 5*1024*1024);
+    blog.fetchFromDB();
   } else {
     console.log('cache miss');
+    webDB.init();
     //remove all articles from blog and DB
+    //callback to move on to fetchJson
     blog.articles = [];
     webDB.execute(
-      'DELETE FROM articles',
+      'DELETE FROM articles;',
       blog.fetchJSON(eTag));
   };
 };
 
-//Send JSON request, store the returned object in localStorage
-//as a string, call a function to load data from the localStorage,
+//Send JSON request, store the returned object in DB
+//call a function to load data from the localStorage,
 //save the new eTag to local storage
 blog.fetchJSON = function(eTag) {
   $.getJSON('data/blogArticles.json', function(data) {
-    data.forEach(function(item) {
-      var article = new Article(item);
-      blog.articles.push(article);
-      webDB.execute(
-        'INSERT INTO articles (title, author, authorUrl, category, publishedOn, body) VALUES ("' + article.title + '", "' + article.author + '", "' + article.authorUrl + '", "' + article.category + '", "' + article.publishedOn + '", "' + article.body + '");'
-      );
-    });
+    blog.articles = blog.convertToHTML(data);
+    webDB.insertAllRecords(blog.articles);
+    blog.initArticles();
+  })
+  .done(function() {
     localStorage.setItem('eTag', eTag);
-    console.log('store' + eTag);
   });
-};
-
-blog.updateFromJSON = function(data) {
-
-};
-
-//Parse out an array from localStorage, sort to convert markdown
-//and create two dropdown boxes
-blog.loadFromLocal = function() {
-  var stringArticles = localStorage.getItem('articles');
-  var articlesArray = JSON.parse(stringArticles);
-  blog.convertToHTML(articlesArray);
 };
 
 //Receives an array to convert "markdown" key-value pairs to "body"
-//key-value pairs. Calls fillTemplate once completed.
-blog.convertToHTML = function(articlesArray) {
-  var articleArrayCopy = articlesArray.slice();
-  articleArrayCopy.sort(blog.byDate);
-  articleArrayCopy.forEach(function(item) {
-    var body = item.markdown;
-    if (body !== undefined) {
-      var bodyHTML = marked(body);
-      item.body = bodyHTML;
-    }
-  });
-  blog.fillTemplates(articleArrayCopy);
-};
+//key-value pairs. Returns the modified array.
+  blog.convertToHTML = function(articlesArray) {
+    articlesArray.forEach(function(item) {
+      var body = item.markdown;
+      if (body !== undefined) {
+        var bodyHTML = marked(body);
+        item.body = bodyHTML;
+      }
+    });
+    return articlesArray;
+  };
 
+//Parse out an array from localStorage, sort to convert markdown
+//and create two dropdown boxes
+blog.fetchFromDB = function() {
+  webDB.execute(
+    'SELECT * FROM articles;'
+    ,function(resultsArray) {
+      resultsArray.forEach(function(item) {
+        blog.articles.push(item);
+      });
+      blog.initArticles();
+    }
+  );
+};
 
 // Use Handlebars to fill in the article template
 // Register a Handlebar helper to calculate publication date
 // Append new template to the section with ID '#articleContainer'
 // Hide the first paragraph and make "see more" responsive
-blog.fillTemplates = function(articlesArray) {
-
-  console.log('fillTemplates');
+blog.initArticles = function() {
 
   Handlebars.registerHelper('getDate', function(strDate){
     var strDate = strDate || '';
@@ -96,40 +92,37 @@ blog.fillTemplates = function(articlesArray) {
 //callback function line by line
   $.get('templates/template.html', function(data) {
     var template = Handlebars.compile(data);
-
-    articlesArray.forEach(function(item) {
+    blog.articles.sort(blog.byDate);
+    blog.articles.forEach(function(item) {
       var compiledHtml = template(item);
       $('#articleContainer').append(compiledHtml);
+      console.log('each');
     });
 
     $('pre code').each(function(i, block) {
       hljs.highlightBlock(block);
     });
-
-    blog.formatPage(articlesArray);
+    blog.formatPage();
   });
 };
 
-blog.formatPage = function(articlesArray) {
-  console.log('formatpage');
-  blog.loadDropDowns(articlesArray);
-  blog.addEventListernerAuthor();
-  blog.addEventListernerCategory();
+blog.formatPage = function() {
+  blog.loadDropDowns();
   blog.hideFirstParagraph();
   blog.addEventListernerMore();
+  blog.addEventListernerAuthor();
+  blog.addEventListernerCategory();
 };
 
-blog.loadDropDowns = function(articlesArray) {
-  console.log('loadDropDowns');
-  articlesArray.sort(blog.byReverseAuthor);
-  blog.createDropdown(articlesArray, 'author', '#authorList');
-  articlesArray.sort(blog.byCategory);
-  blog.createDropdown(articlesArray, 'category', '#categoryList');
+blog.loadDropDowns = function() {
+  blog.articles.sort(blog.byReverseAuthor);
+  blog.createDropdown('author', '#authorList');
+  blog.articles.sort(blog.byCategory);
+  blog.createDropdown('category', '#categoryList');
 };
 
 // Hides the first paragraph of every article when called
 blog.hideFirstParagraph = function() {
-  console.log('hidefirstP');
   var $articleBody = $('.body');
   $articleBody.each(function() {
     $(this).children().filter(':gt(0)').hide();
@@ -138,7 +131,6 @@ blog.hideFirstParagraph = function() {
 
 // Expand and Minimize the article when "more" or "less" is clicked
 blog.addEventListernerMore = function() {
-  console.log('addEventListernerMore');
   $('.more').on('click', function() {
     var $this = $(this);
     $this.siblings('.body').children().filter(':gt(0)').slideToggle(500);
@@ -158,58 +150,66 @@ blog.addEventListernerMore = function() {
 
 //Filter the articles based on user selected author
 blog.addEventListernerAuthor = function() {
-  console.log('addEventListernerAuthor');
   $('#authorList').change(function() {
-    blog.filter('#authorList', 'Sort by Author', '.author');
+    var target = $('#authorList option:selected').val();
+    blog.filter(target, '.author');
   });
 };
 
 //Filter the articles based on user selected category
 blog.addEventListernerCategory = function() {
-  console.log('addEventListernerCategory');
   $('#categoryList').change(function() {
-    blog.filter('#categoryList', 'Sort by Category', '.category');
+    var target = $('#categoryList option:selected').val();
+    blog.filter(target, '.category');
   });
 };
 
 // Function will fill out the dropdown box pre-created in the HTML
 // The parameter byType accepts a string with an article object key. ex: 'author'
-// The parameter listClass accepts a string that is the dropdown's id
+// The parameter listID accepts a string that is the dropdown's id
 // that begins with a '#'. ex: '#authorList'
-blog.createDropdown = function(articlesArray, byType, listID) {
-  console.log('createDropdown');
-  var track = [];
-  for (var i = 0; i < articlesArray.length; i++) {
-    var type = articlesArray[i][byType];
-    if (track.indexOf(type) === -1) {
-      var string = '<option>' + type + '</option>';
-      var $html = $(string);
-      $(listID).append($html);
-      track.push(type);
-    }
-  }
+blog.createDropdown = function(byType, listID) {
+  webDB.execute('SELECT DISTINCT "' + byType + '" FROM articles;',
+    function(resultArray) {
+      resultArray.forEach(function(item) {
+        var string = '<option value="' + item[byType] + '">' + item[byType] + '</option>';
+        $(listID).append($(string));
+      });
+    });
 };
 
-//Filter the data based on user selection in dropdown box.
-//selectID is the ID in the relevant <select> ex: '#authorList'
-//defaultText is the default text when not sorted ex: 'Sort by Author'
+//Filter the data based on a value and a category.
 //templateClass is the relevant class in arTemplate ex: '.author'
-blog.filter = function(selectID, defaultText, templateClass) {
-  blog.revealAll();
-  var txt = $(selectID + ' option:selected').text();
-  if (txt !== defaultText) {
+blog.filter = function(value, templateClass) {
+  blog.hideAll();
+  if (value === 'default') {
+    blog.revealAll();
+  } else {
     $(templateClass).each(function() {
-      var $this = $(this);
-      if ($this.text() !== txt) {
-        $this.parents('.articleBundle').hide();
+      if ($(this).text() === value) {
+        $(this).parents('.articleBundle').show();
       }
     });
   }
 };
 
+//Filter returns an array of relevant articles based
+//on type and value
+blog.databasefilter = function(keyType, value) {
+  webDB.execute('SELECT * FROM articles WHERE "' + keyType + '" LIKE "' + value +'" ORDER BY publishedOn ASC;',
+    function(resultArray) {
+      return resultArray;
+    });
+};
+
 //Reveal all articles
 blog.revealAll = function() {
   $('.articleBundle').show();
+};
+
+blog.hideAll = function() {
+  console.log('hide');
+  $('.articleBundle').hide();
 };
 
 // Will cause the .sort method to sort based on
