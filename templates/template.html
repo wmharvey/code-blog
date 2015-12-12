@@ -1,4 +1,4 @@
-<section class="articleBundle">
+<section class="articleBundle {{status}}">
   <header class="title">{{title}}</header>
   <i><span>By: <span class="author">{{author}}</span><br /></span></i>
   <i><time>Published {{getDate this.publishedOn}} days ago</time></i>
@@ -7,4 +7,6 @@
   <i><span>Categories: <span class="category">{{category}}</span><br /></span></i>
   <a class="link url" target="_blank" href="{{authorUrl}}">Original Article</a><br />
   <div class="word-count">Word Count: {{getWordCount this}}</div>
+  <a class="modButton edit-button">Edit</a>
+  <a class="modButton delete-button">Delete</a>
 </section>

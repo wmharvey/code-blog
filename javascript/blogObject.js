@@ -47,16 +47,16 @@ blog.fetchJSON = function(eTag) {
 
 //Receives an array to convert "markdown" key-value pairs to "body"
 //key-value pairs. Returns the modified array.
-  blog.convertToHTML = function(articlesArray) {
-    articlesArray.forEach(function(item) {
-      var body = item.markdown;
-      if (body !== undefined) {
-        var bodyHTML = marked(body);
-        item.body = bodyHTML;
-      }
-    });
-    return articlesArray;
-  };
+blog.convertToHTML = function(articlesArray) {
+  articlesArray.forEach(function(item) {
+    var body = item.markdown;
+    if (body !== undefined) {
+      var bodyHTML = marked(body);
+      item.body = bodyHTML;
+    }
+  });
+  return articlesArray;
+};
 
 //Parse out an array from localStorage, sort to convert markdown
 //and create two dropdown boxes
@@ -78,16 +78,6 @@ blog.fetchFromDB = function() {
 // Hide the first paragraph and make "see more" responsive
 blog.initArticles = function() {
 
-  Handlebars.registerHelper('getDate', function(strDate){
-    var strDate = strDate || '';
-    var date = parseInt((new Date() - new Date(strDate))/60/60/24/1000);
-    return date;
-  });
-
-  Handlebars.registerHelper('getWordCount', function(obj) {
-    return wordCount(obj);
-  });
-
 //Asynchronous function. Get the template, then run through the
 //callback function line by line
   $.get('templates/template.html', function(data) {
@@ -107,17 +97,25 @@ blog.initArticles = function() {
 };
 
 blog.formatPage = function() {
+  blog.registerAdminMode();
   blog.loadDropDowns();
   blog.hideFirstParagraph();
   blog.addEventListernerMore();
   blog.addEventListernerAuthor();
   blog.addEventListernerCategory();
+  blog.addEventListernerDelete();
+  blog.addEventListernerEdit();
+};
+
+blog.registerAdminMode = function() {
+  if (util.getParameterByKey('admin') === 'true') {
+    $('.modButton').css('display', 'inline-block');
+    $('.draft').css('display', 'block');
+  }
 };
 
 blog.loadDropDowns = function() {
-  blog.articles.sort(blog.byReverseAuthor);
   blog.createDropdown('author', '#authorList');
-  blog.articles.sort(blog.byCategory);
   blog.createDropdown('category', '#categoryList');
 };
 
@@ -164,6 +162,26 @@ blog.addEventListernerCategory = function() {
   });
 };
 
+blog.addEventListernerEdit = function() {
+  $('.edit-button').on('click', function() {
+    var thisTitle = $(this).siblings('.title').text();
+    console.log(thisTitle);
+    webDB.execute('UPDATE articles SET edit = "true" WHERE title = "' + thisTitle + '";'
+      ,function() {
+        window.location.href='newentrysite.html';
+      }
+    );
+  });
+};
+
+blog.addEventListernerDelete = function() {
+  $('.delete-button').on('click', function() {
+    $(this).parent().remove();
+    var thisTitle = $(this).siblings('.title').text();
+    webDB.execute('DELETE FROM articles WHERE title = "' + thisTitle + '";');
+  });
+};
+
 // Function will fill out the dropdown box pre-created in the HTML
 // The parameter byType accepts a string with an article object key. ex: 'author'
 // The parameter listID accepts a string that is the dropdown's id
@@ -171,11 +189,19 @@ blog.addEventListernerCategory = function() {
 blog.createDropdown = function(byType, listID) {
   webDB.execute('SELECT DISTINCT "' + byType + '" FROM articles;',
     function(resultArray) {
+      blog.sortArray(resultArray, byType);
       resultArray.forEach(function(item) {
         var string = '<option value="' + item[byType] + '">' + item[byType] + '</option>';
         $(listID).append($(string));
       });
     });
+};
+
+blog.sortArray = function(array, type) {
+  switch (type) {
+  case 'author' : array.sort(blog.byReverseAuthor); break;
+  case 'category' : array.sort(blog.byCategory); break;
+  }
 };
 
 //Filter the data based on a value and a category.
@@ -191,6 +217,8 @@ blog.filter = function(value, templateClass) {
       }
     });
   }
+  $('.draft').css('display', 'none');
+  blog.registerAdminMode();
 };
 
 //Filter returns an array of relevant articles based
@@ -208,7 +236,6 @@ blog.revealAll = function() {
 };
 
 blog.hideAll = function() {
-  console.log('hide');
   $('.articleBundle').hide();
 };
 

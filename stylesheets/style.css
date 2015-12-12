@@ -144,6 +144,10 @@ select {
 *- Articles Container -
 */
 
+.draft {
+  display: none;
+}
+
 .articleBundle {
   margin: 50px auto;
 }
@@ -176,6 +180,16 @@ select {
   cursor: s-resize;
   color: #8E001C;
   font-weight: bold;
+}
+
+.modButton {
+  display: none;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+  text-decoration: none;
+  color: initial;
+  margin-left: 10px;
 }
 
 /*
