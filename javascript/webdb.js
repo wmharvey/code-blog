@@ -59,7 +59,7 @@ webDB.insertAllRecords = function (articles) {
 
 webDB.setupTables = function () {
   html5sql.process(
-    ['DROP TABLE articles', 'CREATE TABLE IF NOT EXISTS articles (id INTEGER PRIMARY KEY, title VARCHAR(255) NOT NULL, author VARCHAR(255) NOT NULL, authorUrl VARCHAR(255), category VARCHAR(20), publishedOn DATETIME, body TEXT NOT NULL, status VARCHAR(255), edit VARCHAR(20));'],
+    'CREATE TABLE IF NOT EXISTS articles (id INTEGER PRIMARY KEY, title VARCHAR(255) NOT NULL, author VARCHAR(255) NOT NULL, authorUrl VARCHAR(255), category VARCHAR(20), publishedOn DATETIME, body TEXT NOT NULL, status VARCHAR(255), edit VARCHAR(20));',
     function() {
       // on success
       console.log('Success setting up tables.');
