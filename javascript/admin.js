@@ -31,7 +31,7 @@ $(function() {
         articles.push(item);
       });
       fillTables();
-    })
+    });
   }
 
   function fetchJSON(eTag) {
@@ -42,7 +42,7 @@ $(function() {
     })
     .done(function() {
       localStorage.setItem('eTag', eTag);
-    })
+    });
   };
 
   // function loadFromLocal() {

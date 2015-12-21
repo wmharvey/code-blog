@@ -137,10 +137,23 @@ img {
 
 #about {
 	display: none;
-	text-align: center;
-	margin-top: 100px;
-	margin-bottom: 100px;
+	margin: 100px 10px;
+}
+
+.section_title {
 	font-size: 3em;
+	text-decoration: underline;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.section_intro {
+	font-size: 2em;
+	margin: 10px 0;
+}
+
+#about > ul {
+	font-size: 32px;
 }
 
 /*
