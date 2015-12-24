@@ -171,8 +171,8 @@ blog.addEventListernerNewPageButton = function() {
     history.pushState({}, 'filter', '/article/' + thisTitle);
     $('.newpage-button').hide();
     blog.filter(thisTitle, '.title');
-  })
-}
+  });
+};
 
 blog.addEventListernerEdit = function() {
   $('.edit-button').on('click', function() {
